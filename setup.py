@@ -24,7 +24,6 @@ setup(
     author="zthxxx",
     author_email="zthxxx.me@gmail.com",
     url="https://github.com/zthxxx/sniputils",
-    package_dir={"": "src"},
     packages=find_packages(),
     install_requires=line_read('requirements.txt')
 )
