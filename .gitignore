@@ -4,9 +4,11 @@
 __pycache__/
 .pytest_cache/
 venv/
-.process_data/
-*.egg-info/
 
+*.egg-info/
+dist/
+
+.process_data/
 *.pid.lock
 
 *.py[cod]

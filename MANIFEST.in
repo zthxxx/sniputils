@@ -1,5 +1,6 @@
 include *.rst
 include CONTRIBUTORS.txt
+include requirements.txt
 include LICENSE
 include *.ini
 global-exclude *.pyc
