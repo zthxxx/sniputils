@@ -1,3 +1,4 @@
+from functools import reduce
 from os import makedirs, path
 from typing import Iterable
 
@@ -22,3 +23,9 @@ def args2set(func):
         return func(*sets)
 
     return args_set_func
+
+
+def reduce_set(items):
+    return set(
+        reduce(lambda a, b: set(a) | set(b), items)
+    )
