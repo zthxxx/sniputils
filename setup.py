@@ -34,7 +34,7 @@ setup(
     name=project,
     license='MIT',
     version=version,
-    python_requires='>=3.6',
+    python_requires='>=2.7',
     description='utils snippets for zthxxx',
     long_description=read('README.md'),
     author='zthxxx',
