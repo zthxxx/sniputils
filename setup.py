@@ -20,7 +20,7 @@ def line_read(fname):
 def project_packages(project, package_dir):
     packages = [project]
     packages.extend([
-        f'{project}.{package}'
+        '{project}.{package}'.format(project=project, package=package)
         for package in find_packages(package_dir)
     ])
     return packages
