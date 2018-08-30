@@ -3,7 +3,7 @@ inject monkey patch
 
     append upstream folder path in env PATH while folder is module
         to resolve relative import as absolute grammar
-
+        [support multiple to exec patch more times]
     Usage:
     as files like this:
     /top
@@ -21,13 +21,23 @@ inject monkey patch
         import foo.foo.xxx      # <- this is relative import but use absolute grammar
 
     it will append ['/top'] to sys.path
+    NOTE: re-import this module will also reload and append to sys.path,
+    it's means
+        import sniputils.upstream
+        import sniputils.upstream
+        import sniputils.upstream # <- will append ['/top', '/top', '/top'] to sys.path
 """
 import inspect
+import sys
 
 from .track_inject import path_inject
 
 current = inspect.currentframe()
-upstream = inspect.currentframe().f_back
+
+module = inspect.getmodule(current)
+del sys.modules[module.__name__]
+
+upstream = current.f_back
 back_import = inspect.getsourcefile(upstream)
 
 path_inject(back_import)

@@ -8,6 +8,8 @@ def path_inject(file):
     to resolve relative import as absolute grammar
     :param file: path of file
     """
+    if not file:
+        return
     folder_path = dirname(abspath(file))
     while folder_path and folder_path != '/':
         module = abspath(folder_path)
