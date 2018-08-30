@@ -35,7 +35,8 @@ from .track_inject import path_inject
 current = inspect.currentframe()
 
 module = inspect.getmodule(current)
-del sys.modules[module.__name__]
+# TODO: del module without load_module error (v0.0.9)
+# del sys.modules[module.__name__]
 
 upstream = current.f_back
 back_import = inspect.getsourcefile(upstream)

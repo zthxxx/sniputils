@@ -7,14 +7,20 @@ def get_file(file):
     return open(os.path.join(os.path.dirname(__file__), file))
 
 
-def read(fname):
-    with get_file(fname) as f:
+def read(file):
+    with get_file(file) as f:
         return f.read()
 
 
-def line_read(fname):
-    lines = list(get_file(fname))
+def line_read(file):
+    lines = list(get_file(file))
     return list(filter(None, [line.strip() for line in lines]))
+
+
+def read_require(file):
+    requirements = line_read(file)
+    requirements = list(filter(lambda item: item.strip() and item.strip()[0] != '#', requirements))
+    return requirements
 
 
 def project_packages(project, package_dir):
