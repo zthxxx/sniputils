@@ -10,9 +10,10 @@ def path_inject(file):
     """
     if not file:
         return
+    paths = set(path)
     folder_path = dirname(abspath(file))
     while folder_path and folder_path != '/':
         module = abspath(folder_path)
-        if isfile(join(module, '__init__.py')):
+        if isfile(join(module, '__init__.py')) and module not in paths:
             path.append(module)
         folder_path = dirname(folder_path)

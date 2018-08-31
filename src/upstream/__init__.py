@@ -23,20 +23,26 @@ inject monkey patch
     it will append ['/top'] to sys.path
     NOTE: re-import this module will also reload and append to sys.path,
     it's means
+        # in /test/foo/foo.py
         import sniputils.upstream
+        # in /retest/bar/bar.py
         import sniputils.upstream
-        import sniputils.upstream # <- will append ['/top', '/top', '/top'] to sys.path
+        # in /top.py
+        import test.foo.foo
+        import retest.bar.bar <- will append ['/test', '/retest'] to sys.path
 """
+
+
 import inspect
-import sys
 
 from .track_inject import path_inject
+from ..reimportable import set_reimport
+
+set_reimport(__name__)
 
 current = inspect.currentframe()
 
 module = inspect.getmodule(current)
-# TODO: del module without load_module error (v0.0.9)
-# del sys.modules[module.__name__]
 
 upstream = current.f_back
 back_import = inspect.getsourcefile(upstream)
