@@ -32,19 +32,15 @@ inject monkey patch
         import retest.bar.bar <- will append ['/test', '/retest'] to sys.path
 """
 
-
-import inspect
+from inspect import getsourcefile
 
 from .track_inject import path_inject
+from ..import_track import which_import_me
 from ..reimportable import set_reimport
 
 set_reimport(__name__)
 
-current = inspect.currentframe()
+back_import = which_import_me()
+back_module = getsourcefile(back_import)
 
-module = inspect.getmodule(current)
-
-upstream = current.f_back
-back_import = inspect.getsourcefile(upstream)
-
-path_inject(back_import)
+path_inject(back_module)

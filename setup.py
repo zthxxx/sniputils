@@ -19,6 +19,7 @@ def line_read(file):
 
 def read_require(file):
     requirements = line_read(file)
+    # filter comment in requirements file
     requirements = list(filter(lambda item: item.strip() and item.strip()[0] != '#', requirements))
     return requirements
 

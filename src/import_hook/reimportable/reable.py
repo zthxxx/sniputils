@@ -1,10 +1,12 @@
 import sys
+from collections import namedtuple
 try:
     import __builtin__ as builtins
 except ImportError:
     import builtins
 
 reables = set()
+ImportArgs = namedtuple('ImportArgs', ['globals', 'locals', 'fromlist', 'level'])
 
 
 def reimport_hook():
@@ -18,7 +20,13 @@ def reimport_hook():
         native_import = builtins.__native_import__
 
         def hook_import(name, *args, **kwargs):
-            if name in reables:
+            import_args = ImportArgs(*args)
+            if import_args.fromlist:
+                package_full = '.'.join([name, *import_args.fromlist])
+                if package_full in reables:
+                    del sys.modules[name]
+                    del sys.modules[package_full]
+            elif name in reables:
                 del sys.modules[name]
             return native_import(name, *args, **kwargs)
 
