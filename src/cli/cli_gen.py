@@ -1,18 +1,33 @@
 """
     base on Click 6.x
 
-    use ops() os click.option() to add options
-    use @cli.resultcallback() to add callback function
-"""
+    ** notice that need 'LC_ALL=en_US.UTF-8' in sys env **
+    in this package, its set in src.__init__ by locale.setlocale
 
-import locale
+    use ops() os click.option() to add options
+    use @cli.resultcallback() to add callback function while parse cli params
+
+    Usage as typical example:
+        from sniputils.cli import cli, ops
+
+        cli.help = '''
+            this is the typical example of sniputils.cli
+        '''
+
+        ops('--test', is_flag=True, default=False, help='use test model')
+
+        @cli.resultcallback()
+        def callback_parse_config(_, **options):
+            print('cli parse callback!', options)
+            parse_config(options)
+
+
+        # python cli.py --test
+        # output -> 'cli parse callback!', {'test': True}
+"""
 
 import click
 
-# also set 'LC_ALL=en_US.UTF-8' in pycharm environment or system env
-# PyCharm -> Run -> Edit Configurations -> Defaults -> Python -> Environment variables
-# $ export LC_ALL=en_US.UTF-8
-locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 click.disable_unicode_literals_warning = True
 LENIENT_CONTEXT = dict(terminal_width=167, ignore_unknown_options=True, allow_extra_args=True)
 

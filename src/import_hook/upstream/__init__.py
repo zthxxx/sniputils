@@ -41,6 +41,7 @@ from ..reimportable import set_reimport
 set_reimport(__name__)
 
 back_import = which_import_me()
-back_module = getsourcefile(back_import)
 
-path_inject(back_module)
+if back_import:
+    back_module = getsourcefile(back_import)
+    path_inject(back_module)
