@@ -1,5 +1,6 @@
-import sys
 from collections import namedtuple
+import sys
+
 try:
     import __builtin__ as builtins
 except ImportError:
@@ -7,6 +8,8 @@ except ImportError:
 
 reables = set()
 ImportArgs = namedtuple('ImportArgs', ['globals', 'locals', 'fromlist', 'level'])
+# defaults compatible with py2 import args
+ImportArgs.__new__.__defaults__ = ({}, {}, tuple(), 0)
 
 
 def reimport_hook():
@@ -22,7 +25,7 @@ def reimport_hook():
         def hook_import(name, *args, **kwargs):
             import_args = ImportArgs(*args)
             if import_args.fromlist:
-                package_full = '.'.join([name, *import_args.fromlist])
+                package_full = '.'.join([name] + list(import_args.fromlist))
                 if package_full in reables:
                     del sys.modules[name]
                     del sys.modules[package_full]
