@@ -1,6 +1,7 @@
 import os
 from queue import Queue
-from threading import Event, Thread
+from threading import Event, Lock, Thread, current_thread
+from typing import Callable, Generator
 
 
 class ActorExitException(Exception):
@@ -12,7 +13,7 @@ class Parallel(object):
     Actor model
     https://en.wikipedia.org/wiki/Actor_model
 
-    TODO: add callback and get returned result (yield)
+    TODO: class decorator
 
     Usage:
         import time
@@ -21,6 +22,7 @@ class Parallel(object):
         def func(param):
             time.sleep(randint(1, 2))
             print('param:', param)
+            return param
 
         poi =  Parallel(func)
         poi.put(1)
@@ -152,15 +154,57 @@ class Parallel(object):
         ...
         # equal Parallel(func).puts([1, 2, 3])
 
+        -----
+
+        poi =  Parallel(func, preload=[1, 2, 3])
+        poi.run_as_async()
+        results = list(poi.results)
+        print('results', results)
+        for item in poi.results:
+            print('item', item)
+        print('tasks end')
+
+        # output ->
+        # results [2, 1, 3]
+        # tasks end
+
+        -----
+
+        poi =  Parallel(func, preload=[1, 2, 3])
+        poi.run_as_async()
+        for item in poi.results:
+            print('item', item)
+        print('tasks end')
+
+        # output ->
+        # item 2
+        # item 1
+        # item 3
+        # tasks end
+
     """
 
-    def __init__(self, func, preload: list = None, keep=False, size=os.cpu_count()):
+    def __init__(self, func: Callable[[any], any], preload: list = None, keep=False, size=os.cpu_count()):
+        """
+        parallel run func with multi-threading
+        :param func: target method to run, need receive an arg
+        :param preload: preload any args
+        :param keep: whether or not keep thread while queue is empty
+                     if keep=False, thread will auto close while task end
+        :param size: how much thread to parallel run
+        """
         self.method = func
         self.keep = keep
         self.size = size
-        self.queue = Queue(maxsize=size)
+        self.queue = Queue()
         self.tasks = []
         self._event = None
+
+        self._tasks_done_lock = Lock()
+        self.callbacks = [self._tasks_done_notify]
+        self._results = Queue()
+        self._results_gen = None
+
         for item in preload or []:
             self.queue.put(item)
 
@@ -181,7 +225,9 @@ class Parallel(object):
             self.queue.task_done()
             if item is ActorExitException:
                 raise ActorExitException()
-            self.method(item)
+            result = self.method(item)
+            if result is not None:
+                self._results.put(result)
 
     def _bootstrap(self):
         try:
@@ -189,8 +235,43 @@ class Parallel(object):
         except ActorExitException:
             pass
         finally:
-            if self.queue.empty():
-                self._event.set()
+            if not self.keep and self.queue.empty():
+                self.put(ActorExitException)
+            with self._tasks_done_lock:
+                self._is_other_stoped() and self._tasks_callback()
+
+    def _tasks_callback(self):
+        for callback in self.callbacks:
+            if not isinstance(callback, Callable):
+                continue
+            callback()
+
+    def _tasks_done_notify(self):
+        self._results.put(ActorExitException)
+        self._event.set()
+
+    def _get_result(self):
+        while True:
+            result = self._results.get()
+            self._results.task_done()
+            if result is ActorExitException:
+                return
+            yield result
+
+    @property
+    def results(self) -> Generator:
+        if not self._results_gen:
+            self._results_gen = self._get_result()
+        return self._results_gen
+
+    def _is_other_stoped(self):
+        tasks = set(self.tasks)
+        this = current_thread()
+        tasks.remove(this)
+        for task in tasks:
+            if task.isAlive():
+                return False
+        return True
 
     def is_stop(self):
         if self._event is None:
