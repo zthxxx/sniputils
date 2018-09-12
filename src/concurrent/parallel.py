@@ -12,6 +12,8 @@ class Parallel(object):
     Actor model
     https://en.wikipedia.org/wiki/Actor_model
 
+    TODO: add callback and get returned result (yield)
+
     Usage:
         import time
         from random import randint
@@ -99,7 +101,8 @@ class Parallel(object):
         # equal Parallel(func).puts([1, 2, 3])
 
     """
-    def __init__(self, func, preload: list=None, keep=False, size=os.cpu_count()):
+
+    def __init__(self, func, preload: list = None, keep=False, size=os.cpu_count()):
         self.method = func
         self.keep = keep
         self.size = size
@@ -153,8 +156,9 @@ class Parallel(object):
         self.run_as_async()
         self.await()
 
-    def await(self, keep=False):
-        self.keep = self.keep or keep
+    def await(self, keep: bool = None):
+        if isinstance(keep, bool):
+            self.keep = self.keep
         for task in self.tasks:
             task.join()
         while not self.queue.empty():
@@ -162,6 +166,6 @@ class Parallel(object):
         self.queue.task_done()
 
     def stop(self):
-        self.keep = False
         self.put(ActorExitException)
+        self.keep = False
         self.await()
