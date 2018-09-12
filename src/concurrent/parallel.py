@@ -19,7 +19,7 @@ class Parallel(object):
         from random import randint
 
         def func(param):
-            time.sleep(randint(2, 3))
+            time.sleep(randint(1, 2))
             print('param:', param)
 
         poi =  Parallel(func)
@@ -97,7 +97,59 @@ class Parallel(object):
 
         -----
 
+        poi =  Parallel(func, keep=True)
+        poi.run_as_async()
+        print('start')
+        poi.puts([1, 2, 3])
+        time.sleep(3)
+        print('sleep timeout')
+        poi.await(keep=False)
+        print('end')
+
+        # output ->
+        # start
+        # param: 2
+        # param: 1
+        # param: 3
+        # sleep timeout
+        # end
+
+        -----
+
         poi =  Parallel(func, preload=[1, 2, 3])
+        print('start')
+        poi.run_as_async()
+        time.sleep(3)
+        print('sleep timeout')
+        poi.await(keep=True)
+        print('end')
+
+        # output ->
+        # start
+        # param: 2
+        # param: 1
+        # param: 3
+        # sleep timeout
+        # end
+
+        -----
+
+        poi =  Parallel(func, preload=[1, 2, 3])
+        print('start')
+        poi.run_as_async()
+        poi.await(keep=True)
+        print('end')
+
+        # output ->
+        # start
+        # param: 2
+        # param: 1
+        # param: 3 <- blocked in here until poi.stop()
+
+        -----
+
+        poi =  Parallel(func, preload=[1, 2, 3])
+        ...
         # equal Parallel(func).puts([1, 2, 3])
 
     """
@@ -126,6 +178,7 @@ class Parallel(object):
             if not self.keep and self.queue.empty():
                 raise ActorExitException()
             item = self.queue.get()
+            self.queue.task_done()
             if item is ActorExitException:
                 raise ActorExitException()
             self.method(item)
@@ -136,10 +189,18 @@ class Parallel(object):
         except ActorExitException:
             pass
         finally:
-            self._event.set()
+            if self.queue.empty():
+                self._event.set()
 
     def is_stop(self):
-        return bool(self._event and self._event.is_set())
+        if self._event is None:
+            return False
+        if self._event.is_set():
+            return True
+        for task in self.tasks:
+            if task.isAlive():
+                return False
+        return True
 
     def run_as_async(self):
         if self._event is not None:
@@ -158,14 +219,15 @@ class Parallel(object):
 
     def await(self, keep: bool = None):
         if isinstance(keep, bool):
-            self.keep = self.keep
+            if self.keep and not keep:
+                self.puts([ActorExitException] * self.size)
+            self.keep = keep
         for task in self.tasks:
             task.join()
+        self._event.set()
         while not self.queue.empty():
             self.queue.get_nowait()
-        self.queue.task_done()
+            self.queue.task_done()
 
     def stop(self):
-        self.put(ActorExitException)
-        self.keep = False
-        self.await()
+        self.await(keep=False)
