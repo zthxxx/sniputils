@@ -1,1 +1,1 @@
-from .parallel import parallel
+from .parallel import Parallel

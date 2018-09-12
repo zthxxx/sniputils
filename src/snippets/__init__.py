@@ -1,3 +1,4 @@
+from collections import namedtuple
 from datetime import timedelta
 from functools import reduce
 from os import makedirs, path
@@ -34,12 +35,12 @@ def reduce_set(items: List[list]) -> set:
     )
 
 
-def period_split(start, end, delta: timedelta) -> list:
+def period_split(start, end, delta: timedelta) -> List[namedtuple('period', ['start', 'end'])]:
     start = arrow.get(start)
     end = arrow.get(end)
     splits = []
     while start < end:
         next_step = start + delta
-        splits.append([start, next_step if next_step <= end else end])
+        splits.append((start, next_step if next_step <= end else end))
         start = next_step
     return splits
