@@ -1,7 +1,7 @@
 import os
 from queue import Queue
-from threading import Event, Lock, Thread, current_thread
-from typing import Callable, Generator
+from threading import Barrier, Event, Thread
+from typing import Callable, Generator, Iterable
 
 
 class ActorExitException(Exception):
@@ -10,10 +10,9 @@ class ActorExitException(Exception):
 
 class Parallel(object):
     """
-    Actor model
+    Actor model extension
     https://en.wikipedia.org/wiki/Actor_model
 
-    TODO: class decorator
 
     Usage:
         import time
@@ -184,7 +183,7 @@ class Parallel(object):
 
     """
 
-    def __init__(self, func: Callable[[any], any], preload: list = None, keep=False, size=os.cpu_count()):
+    def __init__(self, func: Callable[[any], any], preload: Iterable = None, keep=False, size=os.cpu_count()):
         """
         parallel run func with multi-threading
         :param func: target method to run, need receive an arg
@@ -198,10 +197,13 @@ class Parallel(object):
         self.size = size
         self.queue = Queue()
         self.tasks = []
-        self._event = None
 
-        self._tasks_done_lock = Lock()
+        self._is_start = Event()
+        self._is_stop = Event()
+
         self.callbacks = [self._tasks_done_notify]
+        self._tasks_done = Barrier(size, action=self._tasks_done_callback)
+
         self._results = Queue()
         self._results_gen = None
 
@@ -209,7 +211,7 @@ class Parallel(object):
             self.queue.put(item)
 
     def put(self, item):
-        if self.is_stop():
+        if self.is_stop:
             raise ActorExitException('This actor is terminated')
         self.queue.put(item)
 
@@ -220,11 +222,11 @@ class Parallel(object):
     def _consumer(self):
         while True:
             if not self.keep and self.queue.empty():
-                raise ActorExitException()
+                raise ActorExitException
             item = self.queue.get()
             self.queue.task_done()
             if item is ActorExitException:
-                raise ActorExitException()
+                raise ActorExitException
             result = self.method(item)
             if result is not None:
                 self._results.put(result)
@@ -237,10 +239,10 @@ class Parallel(object):
         finally:
             if not self.keep and self.queue.empty():
                 self.put(ActorExitException)
-            with self._tasks_done_lock:
-                self._is_other_stoped() and self._tasks_callback()
+            self._tasks_done.wait()
 
-    def _tasks_callback(self):
+    def _tasks_done_callback(self):
+        self._is_stop.set()
         for callback in self.callbacks:
             if not isinstance(callback, Callable):
                 continue
@@ -248,7 +250,6 @@ class Parallel(object):
 
     def _tasks_done_notify(self):
         self._results.put(ActorExitException)
-        self._event.set()
 
     def _get_result(self):
         while True:
@@ -264,39 +265,29 @@ class Parallel(object):
             self._results_gen = self._get_result()
         return self._results_gen
 
-    def _is_other_stoped(self):
-        tasks = set(self.tasks)
-        this = current_thread()
-        tasks.remove(this)
-        for task in tasks:
-            if task.isAlive():
-                return False
-        return True
-
+    @property
     def is_stop(self):
-        if self._event is None:
-            return False
-        if self._event.is_set():
-            return True
-        for task in self.tasks:
-            if task.isAlive():
-                return False
-        return True
+        return self._is_stop.is_set()
+
+    @property
+    def is_start(self):
+        return self._is_start.is_set()
 
     def run_as_async(self):
-        if self._event is not None:
-            if self.is_stop():
-                raise ActorExitException('This actor is terminated')
-            return
-        self._event = Event()
+        if self.is_stop:
+            raise ActorExitException('This actor is terminated')
+        if self.is_start:
+            return self
+        self._is_start.set()
         for index in range(self.size):
             task = Thread(name='parallel', target=self._bootstrap)
             self.tasks.append(task)
             task.start()
+        return self
 
     def run_as_await(self):
         self.run_as_async()
-        self.await()
+        return self.await()
 
     def await(self, keep: bool = None):
         if isinstance(keep, bool):
@@ -305,10 +296,16 @@ class Parallel(object):
             self.keep = keep
         for task in self.tasks:
             task.join()
-        self._event.set()
+        self._is_stop.set()
         while not self.queue.empty():
             self.queue.get_nowait()
             self.queue.task_done()
+        return self.results
 
     def stop(self):
-        self.await(keep=False)
+        return self.await(keep=False)
+
+    def __call__(self, arg_iter: Iterable):
+        self.run_as_async()
+        self.puts(arg_iter)
+        return self.await()

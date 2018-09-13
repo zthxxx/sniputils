@@ -1,1 +1,1 @@
-from .parallel import ActorExitException, Parallel
+from .parallel import Parallel
