@@ -84,7 +84,7 @@ class TypeChose(click.Choice):
     click params: 12
     """
 
-    def __init__(self, *choices: click.ParamType | any):
+    def __init__(self, *choices: click.ParamType):
         super().__init__(choices)
 
     def convert(self, value, param, ctx):
