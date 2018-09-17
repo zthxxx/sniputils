@@ -9,7 +9,7 @@ import arrow
 
 def ensure_dir_exist(file):
     dirs = path.dirname(file)
-    if not path.exists(dirs):
+    if dirs and not path.exists(dirs):
         makedirs(dirs)
 
 

@@ -34,11 +34,17 @@ class Parallel(object):
         # ...
         # get param 7
 
-        # if await with keep flag
+        # if await with `keep` flag
         poi.await(keep=True) # -> will block because the `keep` flag set will block until self.stop()
                              # its exit with poi.stop() in another thread
         # else if only use await
-        poi.await() # -> will block until tasks consumed finish
+        poi.await() # -> will block until tasks were consumed finish
+
+        -----
+
+        if want to block put, set `queue.maxsize`
+
+        poi.queue.maxsize = poi.size
 
         -----
 
@@ -305,7 +311,8 @@ class Parallel(object):
     def stop(self):
         return self.await(keep=False)
 
-    def __call__(self, arg_iter: Iterable):
+    def __call__(self, arg_iter: Iterable=None):
+        self.keep = True
         self.run_as_async()
-        self.puts(arg_iter)
-        return self.await()
+        self.puts(arg_iter or [])
+        return self.stop()

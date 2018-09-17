@@ -7,6 +7,7 @@ venv*/
 
 *.egg-info/
 dist/
+build/
 
 .process_data/
 *.pid.lock
@@ -30,3 +31,6 @@ logs/
 .ipynb*
 *.ipynb
 *.html
+
+*.rst
+!source/index.rst

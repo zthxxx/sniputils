@@ -14,7 +14,7 @@ ImportArgs.__new__.__defaults__ = ({}, {}, tuple(), 0)
 
 def reimport_hook():
     """
-    add a import hook to re-import some touchmodule
+    add a import hook to re-import some module
     """
     if not hasattr(builtins, '__native_import__'):
         builtins.__native_import__ = builtins.__import__
