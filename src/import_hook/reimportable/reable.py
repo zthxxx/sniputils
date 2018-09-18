@@ -37,9 +37,15 @@ def reimport_hook():
 
 def set_reimport(module):
     """
-    :param module: str - module name which want to reimportable
+    set a module to re-importable
+    :param module: module name which want to reimportable
+    :type module: str
+
     Usage:
-        from reimportable import set_reimport
+
+    .. code:: python
+
+        from sniputils.import_hook import set_reimport
         set_reimport(__name__)
     """
     reimport_hook()
@@ -48,8 +54,12 @@ def set_reimport(module):
 
 def disreimport(module):
     """
-    :param module: str - module name which want to disable reimport
+    disable a re-importable module
+
     usage like set_reimport
+
+    :param module: module name which want to disable reimport
+    :type module: str
     """
     if module in reables:
         reables.remove(module)

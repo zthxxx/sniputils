@@ -12,16 +12,19 @@ def connection_url(config):
 def create_session(config):
     """
     create dataset session to sql database
+
     :param config: connection config dict
     :type config: dict
+    .. code:: python
+
         {
-            drive: 'mysql+pymysql',
-            connection: {
-                host: 'xxx',
-                port: 3306,
-                database: 'database name',
-                user: 'username',
-                passwd: 'password'
+            'drive': 'mysql+pymysql',
+            'connection': {
+                'host': 'xxx',
+                'port': 3306,
+                'database': 'database name',
+                'user': 'username',
+                'passwd': 'password'
             }
         }
     :return: database session

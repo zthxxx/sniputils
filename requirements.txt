@@ -11,3 +11,7 @@ dataset >= 1.1.0
 
 # python_daemon cannot install with py2
 # python_daemon >= 2.2.0
+
+flake8
+sphinx
+sphinx_rtd_theme

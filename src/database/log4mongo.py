@@ -2,14 +2,20 @@
 logging handler for mongodb
 
 register handler with:
+
+.. code:: python
+
     from log4mongo import add_log4mongo
     add_log4mongo()
 
-if want remove handler, use:
+if want to remove handler, use:
+
+.. code:: python
+
     from log4mongo import remove_log4mongo
     remove_log4mongo()
-
 """
+
 from datetime import datetime
 import logging
 
@@ -18,8 +24,9 @@ from mongoengine import DateTimeField, Document, IntField, MongoEngineConnection
 
 class LogRecord(Document):
     """
-    show recent log in db:
-    ﻿db.log_record.find({}).sort({_id: -1}).limit(200)
+    show recent log in db
+
+    ``﻿db.log_record.find({}).sort({_id: -1}).limit(200)``
     """
     occur_at = DateTimeField()  # datetime.fromtimestamp(record.created)
     channel = StringField()  # alias `name` in logging.Formatter
@@ -61,6 +68,7 @@ def remove_log4mongo():
 def add_log4mongo():
     """
     add single log handler for mongodb
+
     remove other mongo handler, then make sure add this single
     """
     remove_log4mongo()

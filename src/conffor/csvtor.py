@@ -8,6 +8,7 @@ from ..snippets import ensure_dir_exist
 def separator_filter(item):
     """
     filter whitespace which has ambiguity in data-str
+
     :param item: data item, if str, filter whitespace
     :return: item or filtered
     """
@@ -37,6 +38,7 @@ def save_list_csv(data: List[List], columns: List[str], file: str, **kwargs):
 def read_list_csv(columns: List[str], file: str, **kwargs) -> List[List]:
     """
     read csv with columns, return raw data list
+
     :return: DataFrame rows value
     """
     frame = read_csv(file, names=columns, header=0, encoding='utf-8', **kwargs)

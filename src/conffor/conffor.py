@@ -10,6 +10,7 @@ from ..snippets import ensure_dir_exist
 def load(file: str):
     """
     load json file with default options
+
     :param file: file path to load
     :return: json data as python object
     """
@@ -21,6 +22,7 @@ def load(file: str):
 def dump(file: str, config: dict, indent=2):
     """
     export dict as json file, with default options
+
     :param file: file path to export
     :param config: dict data object
     :param indent: json indent num

@@ -11,10 +11,14 @@ class ActorExitException(Exception):
 class Parallel(object):
     """
     Actor model extension
+
     https://en.wikipedia.org/wiki/Actor_model
 
-
     Usage:
+
+    .. code:: python
+
+        # global define in those case
         import time
         from random import randint
 
@@ -22,6 +26,8 @@ class Parallel(object):
             time.sleep(randint(1, 2))
             print('param:', param)
             return param
+
+    .. code:: python
 
         poi =  Parallel(func)
         poi.put(1)
@@ -40,13 +46,13 @@ class Parallel(object):
         # else if only use await
         poi.await() # -> will block until tasks were consumed finish
 
-        -----
+    .. code:: python
 
-        if want to block put, set `queue.maxsize`
+        # if want to block put, set `queue.maxsize`
 
         poi.queue.maxsize = poi.size
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func)
         poi.puts([1, 2, 3])
@@ -62,7 +68,7 @@ class Parallel(object):
         # param: 3
         # end
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func)
         poi.puts([1, 2, 3])
@@ -77,7 +83,7 @@ class Parallel(object):
         # start
         # raise ActorExitException: This actor is terminated
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func)
         poi.run_as_async()
@@ -87,7 +93,7 @@ class Parallel(object):
         # output raise ->
         # ActorExitException: This actor is terminated
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func, keep=True)
         poi.run_as_async()
@@ -102,7 +108,7 @@ class Parallel(object):
         # param: 1
         # param: 3  <- blocked in here until poi.stop()
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func, keep=True)
         poi.run_as_async()
@@ -121,7 +127,7 @@ class Parallel(object):
         # sleep timeout
         # end
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func, preload=[1, 2, 3])
         print('start')
@@ -139,7 +145,7 @@ class Parallel(object):
         # sleep timeout
         # end
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func, preload=[1, 2, 3])
         print('start')
@@ -153,13 +159,13 @@ class Parallel(object):
         # param: 1
         # param: 3 <- blocked in here until poi.stop()
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func, preload=[1, 2, 3])
         ...
         # equal Parallel(func).puts([1, 2, 3])
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func, preload=[1, 2, 3])
         poi.run_as_async()
@@ -173,7 +179,7 @@ class Parallel(object):
         # results [2, 1, 3]
         # tasks end
 
-        -----
+    .. code:: python
 
         poi =  Parallel(func, preload=[1, 2, 3])
         poi.run_as_async()
@@ -192,6 +198,7 @@ class Parallel(object):
     def __init__(self, func: Callable[[any], any], preload: Iterable = None, keep=False, size=os.cpu_count()):
         """
         parallel run func with multi-threading
+
         :param func: target method to run, need receive an arg
         :param preload: preload any args
         :param keep: whether or not keep thread while queue is empty

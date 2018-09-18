@@ -1,13 +1,18 @@
 """
 make current process run as daemon
-need install python-daemon
+
+.. note::
+    need install ``python-daemon``
 
 https://www.python.org/dev/peps/pep-3143
+
 https://pypi.org/project/python-daemon/
 
 Usage:
-    # use reset_logbase to set logging file
-    # $ export DAEMON_ERR_LOG='error.log'
+
+.. code:: python
+
+    # deamon.py
     from sniputils.logsetting import reset_logbase
     reset_logbase('xxx.log')
 
@@ -15,8 +20,14 @@ Usage:
     with daemon:
         main()
 
+.. code:: bash
+
+    # use reset_logbase to set logging file
+    $ export DAEMON_ERR_LOG='error.log'
+    $ python deamon.py
+
     # its like the command via nohup
-    # $ nohup python -m main > xxx.log 2> error.log &
+    $ nohup python -m main > xxx.log 2> error.log &
 """
 
 from logging import FileHandler, Logger

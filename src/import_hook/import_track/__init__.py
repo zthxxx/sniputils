@@ -10,6 +10,9 @@ def which_import_me():
     get which import the caller who used this track func
 
     Usage:
+
+    .. code:: python
+
         # foo.py
         from .bar import *
 
@@ -18,7 +21,10 @@ def which_import_me():
         back_imported = which_import_me()
         print(back_imported)
 
-        # python bar  --> output: <module foo.py>
+    .. code:: bash
+
+        $ python bar  --> output: <module foo.py>
+
     :return: module - get which module import the caller
     """
     this_track = currentframe()

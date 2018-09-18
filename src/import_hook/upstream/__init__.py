@@ -1,11 +1,16 @@
 """
-inject monkey patch
+append upstream folder path in env PATH while folder is module
 
-    append upstream folder path in env PATH while folder is module
-        to resolve relative import as absolute grammar
-        [support multiple to exec patch more times]
-    Usage:
-    as files like this:
+to resolve relative import as absolute grammar
+
+.. note::
+    **inject monkey patch**
+
+    support multiple to exec patch more times
+
+Usage: ::
+
+    # as files like this:
     /top
         __init__.py
         /foo
@@ -15,14 +20,23 @@ inject monkey patch
             __init__.py
             bar.py
 
-    in bar.py code as:
-        # bar.py
-        import sniputils.upstream
-        import foo.foo.xxx      # <- this is relative import but use absolute grammar
+.. code:: python
 
-    it will append ['/top'] to sys.path
-    NOTE: re-import this module will also reload and append to sys.path,
+    # bar.py
+    import sniputils.upstream
+    import foo.foo.xxx      # <- this is relative import but use absolute grammar
+
+.. code:: bash
+
+    $ python bar
+    # it will append ['/top'] to sys.path
+
+.. note::
+    **NOTE**: re-import this module will **also reload** and append to sys.path,
     it's means
+
+    .. code:: python
+
         # in /test/foo/foo.py
         import sniputils.upstream
         # in /retest/bar/bar.py

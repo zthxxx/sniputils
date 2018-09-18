@@ -1,0 +1,36 @@
+language: python
+dist: trusty
+
+python:
+  - "3.6"
+
+git:
+  depth: false
+
+before_script:
+  - pip --timeout 600 install -r requirements.txt
+  - flake8 src
+
+script:
+  - sphinx-apidoc src -o source
+  - sphinx-build -M html source build
+
+deploy:
+  - provider: pages
+    skip-cleanup: true
+    local-dir: build/html
+    github-token: "${GITHUB_REPO_TOKEN}"
+    keep-history: true
+    on:
+      branch: master
+
+  - provider: pypi
+    skip_cleanup: true
+    user: "${PYPI_USER_NAME}"
+    password: "${PYPI_PASSWORD}"
+    distributions: sdist
+    on:
+      branch: master
+
+notifications:
+  email: true

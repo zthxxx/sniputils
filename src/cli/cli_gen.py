@@ -1,29 +1,37 @@
 """
-    base on Click 6.x
+base on Click 6.x
 
-    ** notice that need 'LC_ALL=en_US.UTF-8' in sys env **
-    in this package, its set in src.__init__ by locale.setlocale
+.. warning::
+    notice that need ``LC_ALL=en_US.UTF-8`` in sys env
 
-    use ops() os click.option() to add options
-    use @cli.resultcallback() to add callback function while parse cli params
+in this package, its set in ``src.__init__`` by locale.setlocale
 
-    Usage as typical example:
-        from sniputils.cli import cli, ops
+use ``ops()`` os ``click.option()`` to add options
 
-        cli.help = '''
-            this is the typical example of sniputils.cli
-        '''
+use ``@cli.resultcallback()`` to add callback function while parse cli params
 
-        ops('--test', is_flag=True, default=False, help='use test model')
+Usage as typical example:
 
-        @cli.resultcallback()
-        def callback_parse_config(_, **options):
-            print('cli parse callback!', options)
-            parse_config(options)
+.. code:: python
+
+    from sniputils.cli import cli, ops
+
+    cli.help = '''
+        this is the typical example of sniputils.cli
+    '''
+
+    ops('--test', is_flag=True, default=False, help='use test model')
+
+    @cli.resultcallback()
+    def callback_parse_config(_, **options):
+        print('cli parse callback!', options)
+        parse_config(options)
 
 
-        # python cli.py --test
-        # output -> 'cli parse callback!', {'test': True}
+.. code:: bash
+
+    $ python cli.py --test
+    # output -> 'cli parse callback!', {'test': True}
 """
 
 import click
@@ -40,7 +48,7 @@ LENIENT_CONTEXT = dict(terminal_width=167, ignore_unknown_options=True, allow_ex
 @click.pass_context
 def cli(ctx, **options):
     """
-    this is a cli help docs
+    this is a cli help docs which need be overwrite cli.help
     """
 
     def chain_callback():
