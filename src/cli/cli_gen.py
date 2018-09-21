@@ -48,7 +48,9 @@ LENIENT_CONTEXT = dict(terminal_width=167, ignore_unknown_options=True, allow_ex
 @click.pass_context
 def cli(ctx, **options):
     """
-    this is a cli help docs which need be overwrite cli.help
+    this is a cli help docs which need be overwrite with assign ``cli.help`` attribute
+
+    use ``@cli.resultcallback()`` decorator to add callback function while parse cli params
     """
 
     def chain_callback():
@@ -59,6 +61,17 @@ def cli(ctx, **options):
 
 
 def ops(*args, **kwargs):
+    """
+    add options to cli, all params same as :func:`click.option`, but without decorator
+
+    example: 
+    
+    .. code:: python
+    
+        ops('--test', is_flag=True, default=False, help='use test model')
+    
+    more usage see this module docs
+    """
     click.option(*args, **kwargs)(cli)
 
 

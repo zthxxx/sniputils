@@ -15,6 +15,7 @@ def create_session(config):
 
     :param config: connection config dict
     :type config: dict
+
     .. code:: python
 
         {
@@ -27,6 +28,7 @@ def create_session(config):
                 'passwd': 'password'
             }
         }
+
     :return: database session
     """
     session = dataset.connect(connection_url(config),

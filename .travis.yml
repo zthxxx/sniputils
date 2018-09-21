@@ -7,13 +7,14 @@ python:
 git:
   depth: false
 
+install: travis_retry pip install -r requirements.txt
+
 before_script:
-  - pip --timeout 600 install -r requirements.txt
   - flake8 src
+  - python setup.py install -f
 
 script:
-  - sphinx-apidoc src -o source
-  - sphinx-build -M html source build
+  - sphinx-build -M html docs build
 
 deploy:
   - provider: pages

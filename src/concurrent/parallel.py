@@ -41,10 +41,10 @@ class Parallel(object):
         # get param 7
 
         # if await with `keep` flag
-        poi.await(keep=True) # -> will block because the `keep` flag set will block until self.stop()
+        poi.await_at(keep=True) # -> will block because the `keep` flag set will block until self.stop()
                              # its exit with poi.stop() in another thread
         # else if only use await
-        poi.await() # -> will block until tasks were consumed finish
+        poi.await_at() # -> will block until tasks were consumed finish
 
     .. code:: python
 
@@ -58,7 +58,7 @@ class Parallel(object):
         poi.puts([1, 2, 3])
         poi.run_as_async()
         print('start')
-        poi.await()
+        poi.await_at()
         print('end')
 
         # output ->
@@ -99,7 +99,7 @@ class Parallel(object):
         poi.run_as_async()
         print('start')
         poi.puts([1, 2, 3])
-        poi.await()
+        poi.await_at()
         print('end')
 
         # output ->
@@ -116,7 +116,7 @@ class Parallel(object):
         poi.puts([1, 2, 3])
         time.sleep(3)
         print('sleep timeout')
-        poi.await(keep=False)
+        poi.await_at(keep=False)
         print('end')
 
         # output ->
@@ -134,7 +134,7 @@ class Parallel(object):
         poi.run_as_async()
         time.sleep(3)
         print('sleep timeout')
-        poi.await(keep=True)
+        poi.await_at(keep=True)
         print('end')
 
         # output ->
@@ -150,7 +150,7 @@ class Parallel(object):
         poi =  Parallel(func, preload=[1, 2, 3])
         print('start')
         poi.run_as_async()
-        poi.await(keep=True)
+        poi.await_at(keep=True)
         print('end')
 
         # output ->
@@ -300,9 +300,9 @@ class Parallel(object):
 
     def run_as_await(self):
         self.run_as_async()
-        return self.await()
+        return self.await_at()
 
-    def await(self, keep: bool = None):
+    def await_at(self, keep: bool = None):
         if isinstance(keep, bool):
             if self.keep and not keep:
                 self.puts([ActorExitException] * self.size)
@@ -316,7 +316,7 @@ class Parallel(object):
         return self.results
 
     def stop(self):
-        return self.await(keep=False)
+        return self.await_at(keep=False)
 
     def __call__(self, arg_iter: Iterable=None):
         self.keep = True

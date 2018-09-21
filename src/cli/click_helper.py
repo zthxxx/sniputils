@@ -7,11 +7,13 @@ class Separate(click.Option):
     """
     Usage: ``ops(cls=Separate, **kwargs)``
 
+    ..
+
         option: ``'1,3,5,7,what,the,hell'``
 
         click params: ``['1', '3', '5', '7', 'what', 'the', 'hell']``
 
-    -----
+    ..
 
         option: ``'single'``
 
@@ -34,17 +36,18 @@ class FlowRange(click.Option):
     """
     Usage: ``ops(cls=FlowRange, **kwargs)``
 
+    ..
         option: ``1``
 
         click params: ``[1]``
 
-    -----
+    ..
 
         option: ``2-5``
 
         click params: ``[2, 3, 4, 5]``
 
-    -----
+    ..
 
         option: ``1,2-5,3-6``
 
@@ -77,12 +80,13 @@ class FlowRange(click.Option):
 class TypeChose(click.Choice):
     """
     Usage: ``ops(type=TypeChose(click.IntParamType, click.File), **kwargs)``
+    
 
         option: ``34``
 
         click params: ``34``
 
-    -----
+    ..
 
         option: ``'./output.log'``
 
@@ -94,7 +98,7 @@ class TypeChose(click.Choice):
 
         click params: ``['what', 'the', 'hell']``
 
-    -----
+    ..
 
         option: ``12``
 

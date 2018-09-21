@@ -23,7 +23,7 @@ Usage: ::
 .. code:: python
 
     # bar.py
-    import sniputils.upstream
+    import sniputils.import_hook.upstream
     import foo.foo.xxx      # <- this is relative import but use absolute grammar
 
 .. code:: bash
@@ -38,9 +38,9 @@ Usage: ::
     .. code:: python
 
         # in /test/foo/foo.py
-        import sniputils.upstream
+        import sniputils.import_hook.upstream
         # in /retest/bar/bar.py
-        import sniputils.upstream
+        import sniputils.import_hook.upstream
         # in /top.py
         import test.foo.foo
         import retest.bar.bar <- will append ['/test', '/retest'] to sys.path

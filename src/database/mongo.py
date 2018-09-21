@@ -13,12 +13,14 @@ def mongo_connect(host: Union[str, list], database: str, user: str=None, passwd:
     :param user: user name
     :param passwd: password
     :param kwargs: some options in this:
+    
     .. code:: python
 
         {
             'replicaSet', 'read_preference',
             'authentication_source', 'authentication_mechanism'
         }
+
     :return: connection
     """
     if not isinstance(host, str) and isinstance(host, Iterable):

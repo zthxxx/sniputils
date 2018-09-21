@@ -36,6 +36,17 @@ def reduce_set(items: List[list]) -> set:
 
 
 def period_split(start, end, delta: timedelta) -> List[namedtuple('period', ['start', 'end'])]:
+    """
+    :param start: period start time, string or datetime type
+    :param end: period ending time, string or datetime type
+    :param delta: steping length, must be a timedelta
+
+    :return:
+    
+    ..
+        input:  [start                                     end]
+        output: [[start delta] [delta] ... [delta] [delta end]]
+    """
     start = arrow.get(start)
     end = arrow.get(end)
     splits = []
