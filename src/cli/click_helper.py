@@ -80,7 +80,7 @@ class FlowRange(click.Option):
 class TypeChose(click.Choice):
     """
     Usage: ``ops(type=TypeChose(click.IntParamType, click.File), **kwargs)``
-    
+
 
         option: ``34``
 

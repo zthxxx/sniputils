@@ -42,7 +42,7 @@ def period_split(start, end, delta: timedelta) -> List[namedtuple('period', ['st
     :param delta: steping length, must be a timedelta
 
     :return:
-    
+
     ..
         input:  [start                                     end]
         output: [[start delta] [delta] ... [delta] [delta end]]

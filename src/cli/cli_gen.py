@@ -64,12 +64,12 @@ def ops(*args, **kwargs):
     """
     add options to cli, all params same as :func:`click.option`, but without decorator
 
-    example: 
-    
+    example:
+
     .. code:: python
-    
+
         ops('--test', is_flag=True, default=False, help='use test model')
-    
+
     more usage see this module docs
     """
     click.option(*args, **kwargs)(cli)

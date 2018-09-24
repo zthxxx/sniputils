@@ -13,7 +13,7 @@ def mongo_connect(host: Union[str, list], database: str, user: str=None, passwd:
     :param user: user name
     :param passwd: password
     :param kwargs: some options in this:
-    
+
     .. code:: python
 
         {
