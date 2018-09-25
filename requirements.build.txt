@@ -1,0 +1,6 @@
+python_daemon
+
+flake8
+sphinx
+sphinx_rtd_theme
+recommonmark
