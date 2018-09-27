@@ -24,7 +24,11 @@ project = 'sniputils'
 copyright = '2018, zthxxx'
 author = 'zthxxx'
 
-sniputils = __import__('src')
+try:
+    sniputils = __import__('sniputils')
+except ImportError:
+    sniputils = __import__('src')
+    sys.modules['sniputils'] = sys.modules['src']
 
 # The short X.Y version
 version = sniputils.get_version()
