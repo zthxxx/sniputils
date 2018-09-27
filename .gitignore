@@ -32,6 +32,6 @@ logs/
 *.ipynb
 *.html
 
-source/sniputils*.rst
-source/src*.rst
-source/modules.rst
+docs/sniputils*.rst
+docs/src*.rst
+docs/modules.rst

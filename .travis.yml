@@ -7,7 +7,9 @@ python:
 git:
   depth: false
 
-install: travis_retry pip install -r requirements.build.txt
+install: 
+  - travis_retry pip install -r requirements.txt
+  - travis_retry pip install -r requirements.build.txt
 
 before_script:
   - flake8 src

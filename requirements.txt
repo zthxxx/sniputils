@@ -9,5 +9,4 @@ PyMySQL >= 0.9.2
 mongoengine >= 0.15.3
 dataset >= 1.1.0
 
-# python_daemon cannot install with py2
-# python_daemon >= 2.2.0
+python_daemon >= 2.2.0
