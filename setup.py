@@ -1,10 +1,11 @@
-import os
+from os import path
 
 from setuptools import find_packages, setup
 
 
 def get_file(file):
-    return open(os.path.join(os.path.dirname(__file__), file))
+    file = path.join(path.dirname(__file__), file)
+    return open(file, 'r', encoding='utf-8')
 
 
 def read(file):
