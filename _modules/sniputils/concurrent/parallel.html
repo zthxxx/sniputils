@@ -1,0 +1,532 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sniputils.concurrent.parallel &mdash; sniputils 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> sniputils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html"><a align="center" href="https://github.com/zthxxx/sniputils" target="_blank">sniputils</a></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#provide">Provide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#install">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#api-reference">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#contribute">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html#author">Author</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sniputils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sniputils.concurrent.parallel</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sniputils.concurrent.parallel</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="k">import</span> <span class="n">Queue</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Barrier</span><span class="p">,</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Thread</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span>
+
+
+<span class="k">class</span> <span class="nc">ActorExitException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="Parallel"><a class="viewcode-back" href="../../../api.html#sniputils.concurrent.Parallel">[docs]</a><span class="k">class</span> <span class="nc">Parallel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Actor model extension</span>
+
+<span class="sd">    https://en.wikipedia.org/wiki/Actor_model</span>
+
+<span class="sd">    Usage:</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        # global define in those case</span>
+<span class="sd">        import time</span>
+<span class="sd">        from random import randint</span>
+
+<span class="sd">        def func(param):</span>
+<span class="sd">            time.sleep(randint(1, 2))</span>
+<span class="sd">            print(&#39;param:&#39;, param)</span>
+<span class="sd">            return param</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func)</span>
+<span class="sd">        poi.put(1)</span>
+<span class="sd">        poi.put(3)</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        poi.puts([5, 7, 9])</span>
+<span class="sd">        # output rand -&gt;</span>
+<span class="sd">        # get param 1</span>
+<span class="sd">        # get param 5</span>
+<span class="sd">        # ...</span>
+<span class="sd">        # get param 7</span>
+
+<span class="sd">        # if await with `keep` flag</span>
+<span class="sd">        poi.await_at(keep=True) # -&gt; will block because the `keep` flag set will block until self.stop()</span>
+<span class="sd">                             # its exit with poi.stop() in another thread</span>
+<span class="sd">        # else if only use await</span>
+<span class="sd">        poi.await_at() # -&gt; will block until tasks were consumed finish</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        # if want to block put, set `queue.maxsize`</span>
+
+<span class="sd">        poi.queue.maxsize = poi.size</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func)</span>
+<span class="sd">        poi.puts([1, 2, 3])</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        print(&#39;start&#39;)</span>
+<span class="sd">        poi.await_at()</span>
+<span class="sd">        print(&#39;end&#39;)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # start</span>
+<span class="sd">        # param: 2</span>
+<span class="sd">        # param: 1</span>
+<span class="sd">        # param: 3</span>
+<span class="sd">        # end</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func)</span>
+<span class="sd">        poi.puts([1, 2, 3])</span>
+<span class="sd">        poi.run_as_await()</span>
+<span class="sd">        print(&#39;start&#39;)</span>
+<span class="sd">        poi.put(None)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # param: 2</span>
+<span class="sd">        # param: 1</span>
+<span class="sd">        # param: 3</span>
+<span class="sd">        # start</span>
+<span class="sd">        # raise ActorExitException: This actor is terminated</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func)</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        print(&#39;start&#39;)</span>
+<span class="sd">        poi.puts([1, 2, 3])</span>
+
+<span class="sd">        # output raise -&gt;</span>
+<span class="sd">        # ActorExitException: This actor is terminated</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func, keep=True)</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        print(&#39;start&#39;)</span>
+<span class="sd">        poi.puts([1, 2, 3])</span>
+<span class="sd">        poi.await_at()</span>
+<span class="sd">        print(&#39;end&#39;)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # start</span>
+<span class="sd">        # param: 2</span>
+<span class="sd">        # param: 1</span>
+<span class="sd">        # param: 3  &lt;- blocked in here until poi.stop()</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func, keep=True)</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        print(&#39;start&#39;)</span>
+<span class="sd">        poi.puts([1, 2, 3])</span>
+<span class="sd">        time.sleep(3)</span>
+<span class="sd">        print(&#39;sleep timeout&#39;)</span>
+<span class="sd">        poi.await_at(keep=False)</span>
+<span class="sd">        print(&#39;end&#39;)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # start</span>
+<span class="sd">        # param: 2</span>
+<span class="sd">        # param: 1</span>
+<span class="sd">        # param: 3</span>
+<span class="sd">        # sleep timeout</span>
+<span class="sd">        # end</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func, preload=[1, 2, 3])</span>
+<span class="sd">        print(&#39;start&#39;)</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        time.sleep(3)</span>
+<span class="sd">        print(&#39;sleep timeout&#39;)</span>
+<span class="sd">        poi.await_at(keep=True)</span>
+<span class="sd">        print(&#39;end&#39;)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # start</span>
+<span class="sd">        # param: 2</span>
+<span class="sd">        # param: 1</span>
+<span class="sd">        # param: 3</span>
+<span class="sd">        # sleep timeout</span>
+<span class="sd">        # end</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func, preload=[1, 2, 3])</span>
+<span class="sd">        print(&#39;start&#39;)</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        poi.await_at(keep=True)</span>
+<span class="sd">        print(&#39;end&#39;)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # start</span>
+<span class="sd">        # param: 2</span>
+<span class="sd">        # param: 1</span>
+<span class="sd">        # param: 3 &lt;- blocked in here until poi.stop()</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func, preload=[1, 2, 3])</span>
+<span class="sd">        ...</span>
+<span class="sd">        # equal Parallel(func).puts([1, 2, 3])</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func, preload=[1, 2, 3])</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        results = list(poi.results)</span>
+<span class="sd">        print(&#39;results&#39;, results)</span>
+<span class="sd">        for item in poi.results:</span>
+<span class="sd">            print(&#39;item&#39;, item)</span>
+<span class="sd">        print(&#39;tasks end&#39;)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # results [2, 1, 3]</span>
+<span class="sd">        # tasks end</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        poi =  Parallel(func, preload=[1, 2, 3])</span>
+<span class="sd">        poi.run_as_async()</span>
+<span class="sd">        for item in poi.results:</span>
+<span class="sd">            print(&#39;item&#39;, item)</span>
+<span class="sd">        print(&#39;tasks end&#39;)</span>
+
+<span class="sd">        # output -&gt;</span>
+<span class="sd">        # item 2</span>
+<span class="sd">        # item 1</span>
+<span class="sd">        # item 3</span>
+<span class="sd">        # tasks end</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">any</span><span class="p">],</span> <span class="nb">any</span><span class="p">],</span> <span class="n">preload</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        parallel run func with multi-threading</span>
+
+<span class="sd">        :param func: target method to run, need receive an arg</span>
+<span class="sd">        :param preload: preload any args</span>
+<span class="sd">        :param keep: whether or not keep thread while queue is empty</span>
+<span class="sd">                     if keep=False, thread will auto close while task end</span>
+<span class="sd">        :param size: how much thread to parallel run</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="o">=</span> <span class="n">keep</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_start</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_stop</span> <span class="o">=</span> <span class="n">Event</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tasks_done_notify</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tasks_done</span> <span class="o">=</span> <span class="n">Barrier</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tasks_done_callback</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_gen</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">preload</span> <span class="ow">or</span> <span class="p">[]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_stop</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ActorExitException</span><span class="p">(</span><span class="s1">&#39;This actor is terminated&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">puts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_consumer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ActorExitException</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="n">ActorExitException</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ActorExitException</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_bootstrap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_consumer</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">ActorExitException</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ActorExitException</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tasks_done</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_tasks_done_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_stop</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">callback</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_tasks_done_notify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ActorExitException</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="n">ActorExitException</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">yield</span> <span class="n">result</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results_gen</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results_gen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_result</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results_gen</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stop</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_start</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">run_as_async</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_stop</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ActorExitException</span><span class="p">(</span><span class="s1">&#39;This actor is terminated&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_start</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_start</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;parallel&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+            <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">run_as_await</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">await_at</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">await_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keep</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">keep</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">puts</span><span class="p">([</span><span class="n">ActorExitException</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="o">=</span> <span class="n">keep</span>
+        <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tasks</span><span class="p">:</span>
+            <span class="n">task</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_stop</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_iter</span><span class="p">:</span> <span class="n">Iterable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="n">arg_iter</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, zthxxx
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

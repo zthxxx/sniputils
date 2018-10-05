@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sniputils.logsetting &mdash; sniputils 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> sniputils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html"><a align="center" href="https://github.com/zthxxx/sniputils" target="_blank">sniputils</a></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#provide">Provide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#install">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#api-reference">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#contribute">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html#author">Author</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sniputils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>sniputils.logsetting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sniputils.logsetting</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Output the log to both log-file and console.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">..snippets</span> <span class="k">import</span> <span class="n">ensure_dir_exist</span>
+
+<span class="n">MSG_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1"> &lt;</span><span class="si">%(name)s</span><span class="s1">: </span><span class="si">%(threadName)s</span><span class="s1">&gt; </span><span class="si">%(filename)s</span><span class="s1">[line:</span><span class="si">%(lineno)d</span><span class="s1">] </span><span class="si">%(levelname)s</span><span class="s1"> </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
+<span class="n">TIME_FORMAT</span> <span class="o">=</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">format_stream</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
+                  <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">msg_format</span><span class="o">=</span><span class="n">MSG_FORMAT</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="n">TIME_FORMAT</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create a formatted stream handler</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+    <span class="n">handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">msg_format</span><span class="p">,</span> <span class="n">datefmt</span><span class="o">=</span><span class="n">date_format</span><span class="p">)</span>
+    <span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">handler</span>
+
+
+<div class="viewcode-block" id="clear_logsetting"><a class="viewcode-back" href="../../api.html#sniputils.logsetting.clear_logsetting">[docs]</a><span class="k">def</span> <span class="nf">clear_logsetting</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    clear all root logger handlers, reset level debug</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">root</span></div>
+
+
+<div class="viewcode-block" id="reset_logbase"><a class="viewcode-back" href="../../api.html#sniputils.logsetting.reset_logbase">[docs]</a><span class="k">def</span> <span class="nf">reset_logbase</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span>
+    <span class="n">filemode</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
+    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">msg_format</span><span class="o">=</span><span class="n">MSG_FORMAT</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="n">TIME_FORMAT</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param filename: which file will logging to</span>
+<span class="sd">    :param stream: stream type, default is ``stdout``</span>
+<span class="sd">    :param filemode: [w]overwrite or [a]append mode, default is append</span>
+<span class="sd">    :param level: logging level, default is ``INFO``</span>
+<span class="sd">    :param msg_format: message format pattern str, default is ``logsetting.MSG_FORMAT``</span>
+<span class="sd">    :param date_format: time format pattern str, default is ``logsetting.TIME_FORMAT``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">format_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="n">level</span><span class="p">,</span>
+        <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="n">msg_format</span><span class="p">,</span>
+        <span class="s1">&#39;datefmt&#39;</span><span class="p">:</span> <span class="n">date_format</span><span class="p">,</span>
+        <span class="s1">&#39;filemode&#39;</span><span class="p">:</span> <span class="n">filemode</span>
+    <span class="p">}</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">clear_logsetting</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+        <span class="n">ensure_dir_exist</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">format_config</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">stream</span><span class="p">:</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">format_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">msg_format</span><span class="p">,</span> <span class="n">date_format</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, zthxxx
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
