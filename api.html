@@ -677,7 +677,7 @@ $ nohup python -m main &gt; xxx.log 2&gt; error.log &amp;
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">module - get which module import the caller</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">module - which import the caller</td>
 </tr>
 </tbody>
 </table>
@@ -686,9 +686,15 @@ $ nohup python -m main &gt; xxx.log 2&gt; error.log &amp;
 <dl class="function">
 <dt id="sniputils.import_hook.set_reimport">
 <code class="descclassname">sniputils.import_hook.</code><code class="descname">set_reimport</code><span class="sig-paren">(</span><em>module</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/import_hook/reimportable/reable.html#set_reimport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.import_hook.set_reimport" title="Permalink to this definition">¶</a></dt>
-<dd><p>set a module to re-importable
-:param module: module name which want to reimportable
-:type module: str</p>
+<dd><p>set a module to re-importable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>module</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – module name which want to reimportable</td>
+</tr>
+</tbody>
+</table>
 <p>Usage:</p>
 <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sniputils.import_hook</span> <span class="k">import</span> <span class="n">set_reimport</span>
 <span class="n">set_reimport</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
