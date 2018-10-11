@@ -25,7 +25,7 @@ def which_import_me():
 
         $ python bar  --> output: <module foo.py>
 
-    :return: module - get which module import the caller
+    :return: module - which import the caller
     """
     this_track = currentframe()
     current_called = this_track.f_back
