@@ -7,6 +7,11 @@ from typing import Iterable, List
 import arrow
 
 
+class classproperty(property):
+    def __get__(self, cls, owner):
+        return self.fget.__get__(None, owner)()
+
+
 def ensure_dir_exist(file):
     dirs = path.dirname(file)
     if dirs and not path.exists(dirs):
