@@ -318,7 +318,7 @@ class Parallel(object):
     def stop(self):
         return self.await_at(keep=False)
 
-    def __call__(self, arg_iter: Iterable=None):
+    def __call__(self, arg_iter: Iterable = None):
         self.keep = True
         self.run_as_async()
         self.puts(arg_iter or [])

@@ -4,7 +4,7 @@ from mongoengine import connect
 from mongoengine.base import BaseDocument
 
 
-def mongo_connect(host: Union[str, list], database: str, user: str=None, passwd: str=None, **kwargs):
+def mongo_connect(host: Union[str, list], database: str, user: str = None, passwd: str = None, **kwargs):
     """
     mongoengine global connection
 
