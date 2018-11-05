@@ -4,8 +4,7 @@ from threading import Barrier, Event, Thread
 from typing import Callable, Generator, Iterable
 
 
-class ActorExitException(Exception):
-    pass
+class ActorExitException(Exception): ...
 
 
 class Parallel(object):

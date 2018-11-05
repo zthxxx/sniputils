@@ -56,7 +56,7 @@ class Bucket(object):
 
     @classmethod
     def put(cls, oss_path, data):
-        cls.bucket.put_object(
+        return cls.bucket.put_object(
             oss_path,
             data,
             headers=cls.headers
@@ -70,7 +70,7 @@ class Bucket(object):
 
     @classmethod
     def put_json(cls, oss_path, data):
-        cls.put(oss_path, json.dumps(data, default=json_util.default))
+        return cls.put(oss_path, json.dumps(data, default=json_util.default))
 
     @classmethod
     def is_exists(cls, oss_path) -> bool:
@@ -83,3 +83,8 @@ class Bucket(object):
             delimiter=cls.path_delimiter,
             **kwargs
         ).object_list
+
+    @classmethod
+    def backup(cls, oss_path, suffix='.bak'):
+        bucket_name = cls.bucket.bucket_name
+        return cls.bucket.copy_object(bucket_name, oss_path, f'{oss_path}{suffix}')
