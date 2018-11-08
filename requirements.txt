@@ -10,6 +10,5 @@ mongoengine >= 0.15.3
 dataset >= 1.1.0
 
 oss2 >= 2.5.0
-bson >= 0.5.7
 
 python_daemon >= 2.2.0

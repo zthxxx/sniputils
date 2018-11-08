@@ -3,14 +3,14 @@ from os import path
 from setuptools import find_packages, setup
 
 
-def get_file(file):
-    file = path.join(path.dirname(__file__), file)
-    return open(file, 'r', encoding='utf-8')
-
-
 def read(file):
     with get_file(file) as f:
         return f.read()
+
+
+def get_file(file):
+    file = path.join(path.dirname(__file__), file)
+    return open(file, 'r', encoding='utf-8')
 
 
 def line_read(file):
@@ -19,10 +19,14 @@ def line_read(file):
 
 
 def read_require(file):
+    """
+    why not use pip parse_requirements see:
+    https://github.com/pypa/pip/issues/2286
+    """
     requirements = line_read(file)
     # filter comment in requirements file
-    requirements = list(filter(lambda item: item.strip() and item.strip()[0] != '#', requirements))
-    return requirements
+    requirements = filter(None, [line.split('#')[0].strip() for line in requirements])
+    return list(requirements)
 
 
 def project_packages(project, package_dir):
@@ -50,5 +54,5 @@ setup(
     url='https://github.com/zthxxx/sniputils',
     packages=project_packages(project, package_dir),
     package_dir={project: package_dir},
-    install_requires=line_read('requirements.txt')
+    install_requires=read_require('requirements.txt')
 )

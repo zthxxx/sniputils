@@ -5,6 +5,8 @@ import oss2
 
 from ..snippets import classproperty
 
+oss2.defaults.connection_pool_size = 64
+
 
 class Bucket(object):
     path_delimiter = '/'

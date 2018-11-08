@@ -7,8 +7,7 @@ python:
 git:
   depth: false
 
-install: 
-  - travis_retry pip install -r requirements.txt
+install:
   - travis_retry pip install -r requirements.build.txt
 
 before_script:
