@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>sniputils.concurrent.parallel &mdash; sniputils 0.1.1 documentation</title>
+  <title>sniputils.concurrent.parallel &mdash; sniputils 0.1.2 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.1.2
               </div>
             
           
@@ -473,7 +473,7 @@
     <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_iter</span><span class="p">:</span> <span class="n">Iterable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg_iter</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keep</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">puts</span><span class="p">(</span><span class="n">arg_iter</span> <span class="ow">or</span> <span class="p">[])</span>
