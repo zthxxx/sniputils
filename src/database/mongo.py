@@ -25,7 +25,8 @@ def mongo_connect(host: Union[str, list], database: str, user: str = None, passw
     """
     if not isinstance(host, str) and isinstance(host, Iterable):
         host = f"mongodb://{','.join(host)}"
-    return connect(host=host, db=database, username=user, password=passwd, **kwargs)
+    connection = connect(host=host, db=database, username=user, password=passwd, **kwargs)
+    return getattr(connection, database) if database else connection
 
 
 def doc2dict(doc: Union[list, BaseDocument]):

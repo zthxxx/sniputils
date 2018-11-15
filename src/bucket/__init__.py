@@ -33,11 +33,13 @@ class Bucket(object):
         assert 'host' in oss_config
         assert 'bucket' in oss_config
         cls._oss_config = oss_config
+        return cls
 
     @classmethod
     def overwrite_bucket(cls, bucket):
         assert isinstance(bucket, oss2.Bucket)
         cls._bucket = bucket
+        return cls
 
     @classmethod
     def get_bucket(cls) -> oss2.Bucket:
