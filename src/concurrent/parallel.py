@@ -195,7 +195,7 @@ class Parallel(object):
 
     """
 
-    def __init__(self, func: Callable[[any], any], preload: Iterable = None, keep=False, size=os.cpu_count()):
+    def __init__(self, func: Callable[[any], any], preload: Iterable = None, keep=False, size=os.cpu_count() * 2 + 1):
         """
         parallel run func with multi-threading
 

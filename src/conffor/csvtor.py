@@ -5,18 +5,6 @@ from pandas import DataFrame, read_csv
 from ..snippets import ensure_dir_exist
 
 
-def separator_filter(item):
-    """
-    filter whitespace which has ambiguity in data-str
-
-    :param item: data item, if str, filter whitespace
-    :return: item or filtered
-    """
-    if isinstance(item, str):
-        return item.replace('\r', ' ').replace('\n', ' ').replace(',', '-')
-    return item
-
-
 def frame_csv(data_frame: DataFrame, file: str, **kwargs):
     """
     store pandas.DataFrame to csv, with default options
@@ -29,8 +17,6 @@ def save_list_csv(data: List[List], columns: List[str], file: str, **kwargs):
     """
     store data list to csv
     """
-    for index, line in enumerate(data):
-        data[index] = [separator_filter(item) for item in line]
     frame = DataFrame(data, columns=columns)
     frame_csv(frame, file, **kwargs)
 
