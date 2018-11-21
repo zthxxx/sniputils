@@ -10,6 +10,7 @@ oss2.defaults.connection_pool_size = 64
 
 class Bucket(object):
     path_delimiter = '/'
+    bak_suffix = '.bak'
     headers = {'x-oss-server-side-encryption': 'AES256'}
     _bucket = None
     _oss_config = None
@@ -89,6 +90,7 @@ class Bucket(object):
         ).object_list
 
     @classmethod
-    def backup(cls, oss_path, suffix='.bak'):
+    def backup(cls, oss_path, suffix=None):
+        suffix = suffix or cls.bak_suffix
         bucket_name = cls.bucket.bucket_name
         return cls.bucket.copy_object(bucket_name, oss_path, f'{oss_path}{suffix}')
