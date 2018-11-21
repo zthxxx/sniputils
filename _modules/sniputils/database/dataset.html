@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>sniputils.conffor.conffor &mdash; sniputils 0.1.4 documentation</title>
+  <title>sniputils.database.dataset &mdash; sniputils 0.1.4 documentation</title>
   
 
   
@@ -137,7 +137,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>sniputils.conffor.conffor</li>
+      <li>sniputils.database.dataset</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -152,44 +152,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for sniputils.conffor.conffor</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Some function for read and write json config file.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">import</span> <span class="nn">json</span>
-
-<span class="kn">from</span> <span class="nn">..snippets</span> <span class="k">import</span> <span class="n">ensure_dir_exist</span>
+  <h1>Source code for sniputils.database.dataset</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">dataset</span>
 
 
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../../api.html#sniputils.conffor.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">connection_url</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="n">drive</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;drive&#39;</span><span class="p">,</span> <span class="s1">&#39;mysql+pymysql&#39;</span><span class="p">)</span>
+    <span class="n">connect</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;connection&#39;</span><span class="p">]</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{drive}</span><span class="s1">://</span><span class="si">{connect[&quot;user&quot;]}</span><span class="s1">:</span><span class="si">{connect[&quot;passwd&quot;]}</span><span class="s1">@&#39;</span> \
+          <span class="n">f</span><span class="s1">&#39;</span><span class="si">{connect[&quot;host&quot;]}</span><span class="s1">:</span><span class="si">{connect[&quot;port&quot;]}</span><span class="s1">/</span><span class="si">{connect[&quot;database&quot;]}</span><span class="s1">?charset=utf8&#39;</span>
+    <span class="k">return</span> <span class="n">url</span>
+
+
+<div class="viewcode-block" id="create_session"><a class="viewcode-back" href="../../../api.html#sniputils.database.create_session">[docs]</a><span class="k">def</span> <span class="nf">create_session</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    load json file with default options</span>
+<span class="sd">    create dataset session to sql database</span>
 
-<span class="sd">    :param file: file path to load</span>
-<span class="sd">    :return: json data as python object</span>
+<span class="sd">    :param config: connection config dict</span>
+<span class="sd">    :type config: dict</span>
+
+<span class="sd">    .. code:: python</span>
+
+<span class="sd">        {</span>
+<span class="sd">            &#39;drive&#39;: &#39;mysql+pymysql&#39;,</span>
+<span class="sd">            &#39;connection&#39;: {</span>
+<span class="sd">                &#39;host&#39;: &#39;xxx&#39;,</span>
+<span class="sd">                &#39;port&#39;: 3306,</span>
+<span class="sd">                &#39;database&#39;: &#39;database name&#39;,</span>
+<span class="sd">                &#39;user&#39;: &#39;username&#39;,</span>
+<span class="sd">                &#39;passwd&#39;: &#39;password&#39;</span>
+<span class="sd">            }</span>
+<span class="sd">        }</span>
+
+<span class="sd">    :return: database session</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">jsonfile</span><span class="p">:</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">jsonfile</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">config</span></div>
-
-
-<div class="viewcode-block" id="dump"><a class="viewcode-back" href="../../../api.html#sniputils.conffor.dump">[docs]</a><span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    export dict as json file, with default options</span>
-
-<span class="sd">    :param file: file path to export</span>
-<span class="sd">    :param config: dict data object</span>
-<span class="sd">    :param indent: json indent num</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ensure_dir_exist</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">jsonfile</span><span class="p">:</span>
-        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span>
-            <span class="n">config</span><span class="p">,</span> <span class="n">jsonfile</span><span class="p">,</span>
-            <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">,</span>
-            <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span></div>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connection_url</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
+                              <span class="n">engine_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pool_recycle&#39;</span><span class="p">:</span> <span class="mi">7200</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">session</span></div>
 </pre></div>
 
            </div>
