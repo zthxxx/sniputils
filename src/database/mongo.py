@@ -1,6 +1,6 @@
 from typing import Iterable, Union
 
-from mongoengine import connect
+from mongoengine import connect, get_db
 from mongoengine.base import BaseDocument
 
 
@@ -25,8 +25,9 @@ def mongo_connect(host: Union[str, list], database: str, user: str = None, passw
     """
     if not isinstance(host, str) and isinstance(host, Iterable):
         host = f"mongodb://{','.join(host)}"
-    connection = connect(host=host, db=database, username=user, password=passwd, **kwargs)
-    return getattr(connection, database) if database else connection
+    alias = f'{database}-{user}'
+    connect(host=host, db=database, alias=alias, username=user, password=passwd, **kwargs)
+    return get_db(alias)
 
 
 def doc2dict(doc: Union[list, BaseDocument]):
