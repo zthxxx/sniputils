@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API Reference &mdash; sniputils 0.1.7 documentation</title>
+  <title>API Reference &mdash; sniputils 0.1.8 documentation</title>
   
 
   
@@ -57,7 +57,7 @@
             
             
               <div class="version">
-                0.1.7
+                0.1.8
               </div>
             
           
@@ -347,104 +347,6 @@
 </div>
 <div class="section" id="database">
 <h2>database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="sniputils.database.create_session">
-<code class="descclassname">sniputils.database.</code><code class="descname">create_session</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/dataset.html#create_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.create_session" title="Permalink to this definition">¶</a></dt>
-<dd><p>create dataset session to sql database</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – connection config dict</td>
-</tr>
-</tbody>
-</table>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s1">&#39;drive&#39;</span><span class="p">:</span> <span class="s1">&#39;mysql+pymysql&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;connection&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s1">&#39;xxx&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="mi">3306</span><span class="p">,</span>
-        <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="s1">&#39;database name&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;passwd&#39;</span><span class="p">:</span> <span class="s1">&#39;password&#39;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">database session</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sniputils.database.mongo_connect">
-<code class="descclassname">sniputils.database.</code><code class="descname">mongo_connect</code><span class="sig-paren">(</span><em>host: Union[str, list], database: str, user: str = None, passwd: str = None, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/mongo.html#mongo_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.mongo_connect" title="Permalink to this definition">¶</a></dt>
-<dd><p>mongoengine global connection</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>host</strong> – <code class="docutils literal notranslate"><span class="pre">hostname:port</span></code> or <code class="docutils literal notranslate"><span class="pre">mongodb://host:port,host:port</span></code> or <code class="docutils literal notranslate"><span class="pre">[host,</span> <span class="pre">host]</span></code></li>
-<li><strong>database</strong> – database name</li>
-<li><strong>user</strong> – user name</li>
-<li><strong>passwd</strong> – password</li>
-<li><strong>kwargs</strong> – some options in this:</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s1">&#39;replicaSet&#39;</span><span class="p">,</span> <span class="s1">&#39;read_preference&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;authentication_source&#39;</span><span class="p">,</span> <span class="s1">&#39;authentication_mechanism&#39;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">connection</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sniputils.database.doc2dict">
-<code class="descclassname">sniputils.database.</code><code class="descname">doc2dict</code><span class="sig-paren">(</span><em>doc: Union[list, mongoengine.base.document.BaseDocument]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/mongo.html#doc2dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.doc2dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>transform mongoengine Document to python native dict</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>doc</strong> – Document object</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dict for Document data</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="sniputils.database.add_log4mongo">
-<code class="descclassname">sniputils.database.</code><code class="descname">add_log4mongo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/log4mongo.html#add_log4mongo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.add_log4mongo" title="Permalink to this definition">¶</a></dt>
-<dd><p>add single log handler for mongodb</p>
-<p>remove other mongo handler, then make sure add this single</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="sniputils.database.remove_log4mongo">
-<code class="descclassname">sniputils.database.</code><code class="descname">remove_log4mongo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/log4mongo.html#remove_log4mongo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.remove_log4mongo" title="Permalink to this definition">¶</a></dt>
-<dd><p>remove all mongodb log handler, won’t change other</p>
-</dd></dl>
-
 </div>
 <div class="section" id="concurrent">
 <h2>concurrent<a class="headerlink" href="#concurrent" title="Permalink to this headline">¶</a></h2>
