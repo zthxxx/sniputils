@@ -1,6 +1,6 @@
 from typing import Iterable, Union
 
-from mongoengine import connect, get_db
+from mongoengine.connection import connect, get_db
 from mongoengine.base import BaseDocument
 
 
