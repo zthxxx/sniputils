@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>sniputils.import_hook.import_track &mdash; sniputils 0.1.9 documentation</title>
+  <title>sniputils.database.dataset &mdash; sniputils 0.1.9 documentation</title>
   
 
   
@@ -137,7 +137,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>sniputils.import_hook.import_track</li>
+      <li>sniputils.database.dataset</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -152,48 +152,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for sniputils.import_hook.import_track</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">inspect</span> <span class="k">import</span> <span class="n">currentframe</span><span class="p">,</span> <span class="n">getmodule</span>
-<span class="kn">from</span> <span class="nn">..reimportable</span> <span class="k">import</span> <span class="n">reable</span>
+  <h1>Source code for sniputils.database.dataset</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">dataset</span>
 
 
-<span class="n">exclude</span> <span class="o">=</span> <span class="p">{</span><span class="n">reable</span><span class="p">}</span>
+<span class="k">def</span> <span class="nf">connection_url</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="n">drive</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;drive&#39;</span><span class="p">,</span> <span class="s1">&#39;mysql+pymysql&#39;</span><span class="p">)</span>
+    <span class="n">connect</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;connection&#39;</span><span class="p">]</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{drive}</span><span class="s1">://</span><span class="si">{connect[&quot;user&quot;]}</span><span class="s1">:</span><span class="si">{connect[&quot;passwd&quot;]}</span><span class="s1">@&#39;</span> \
+          <span class="n">f</span><span class="s1">&#39;</span><span class="si">{connect[&quot;host&quot;]}</span><span class="s1">:</span><span class="si">{connect[&quot;port&quot;]}</span><span class="s1">/</span><span class="si">{connect[&quot;database&quot;]}</span><span class="s1">?charset=utf8&#39;</span>
+    <span class="k">return</span> <span class="n">url</span>
 
 
-<div class="viewcode-block" id="which_import_me"><a class="viewcode-back" href="../../../api.html#sniputils.import_hook.which_import_me">[docs]</a><span class="k">def</span> <span class="nf">which_import_me</span><span class="p">():</span>
+<div class="viewcode-block" id="create_session"><a class="viewcode-back" href="../../../api.html#sniputils.database.create_session">[docs]</a><span class="k">def</span> <span class="nf">create_session</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    get which import the caller who used this track func</span>
+<span class="sd">    create dataset session to sql database</span>
 
-<span class="sd">    Usage:</span>
+<span class="sd">    :param config: connection config dict</span>
+<span class="sd">    :type config: dict</span>
 
 <span class="sd">    .. code:: python</span>
 
-<span class="sd">        # foo.py</span>
-<span class="sd">        from .bar import *</span>
+<span class="sd">        {</span>
+<span class="sd">            &#39;drive&#39;: &#39;mysql+pymysql&#39;,</span>
+<span class="sd">            &#39;connection&#39;: {</span>
+<span class="sd">                &#39;host&#39;: &#39;xxx&#39;,</span>
+<span class="sd">                &#39;port&#39;: 3306,</span>
+<span class="sd">                &#39;database&#39;: &#39;database name&#39;,</span>
+<span class="sd">                &#39;user&#39;: &#39;username&#39;,</span>
+<span class="sd">                &#39;passwd&#39;: &#39;password&#39;</span>
+<span class="sd">            }</span>
+<span class="sd">        }</span>
 
-<span class="sd">        # bar.py</span>
-<span class="sd">        from import_hook import which_import_me</span>
-<span class="sd">        back_imported = which_import_me()</span>
-<span class="sd">        print(back_imported)</span>
-
-<span class="sd">    .. code:: bash</span>
-
-<span class="sd">        $ python bar  --&gt; output: &lt;module foo.py&gt;</span>
-
-<span class="sd">    :return: module - which import the caller</span>
+<span class="sd">    :return: database session</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">this_track</span> <span class="o">=</span> <span class="n">currentframe</span><span class="p">()</span>
-    <span class="n">current_called</span> <span class="o">=</span> <span class="n">this_track</span><span class="o">.</span><span class="n">f_back</span>
-    <span class="n">upstream</span> <span class="o">=</span> <span class="n">current_called</span><span class="o">.</span><span class="n">f_back</span>
-
-    <span class="k">while</span> <span class="n">upstream</span><span class="p">:</span>
-        <span class="n">trace_module</span> <span class="o">=</span> <span class="n">getmodule</span><span class="p">(</span><span class="n">upstream</span><span class="p">)</span>
-        <span class="n">upstream</span> <span class="o">=</span> <span class="n">upstream</span><span class="o">.</span><span class="n">f_back</span>
-        <span class="c1"># back imported caller need to be a three party libraries,</span>
-        <span class="c1"># impossible to be a builtin func or code</span>
-        <span class="c1"># TODO: exclude is ugly, need to remove from stack frame</span>
-        <span class="k">if</span> <span class="n">trace_module</span> <span class="ow">and</span> <span class="n">trace_module</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">trace_module</span></div>
+    <span class="n">session</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connection_url</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
+                              <span class="n">engine_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pool_recycle&#39;</span><span class="p">:</span> <span class="mi">7200</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">session</span></div>
 </pre></div>
 
            </div>
