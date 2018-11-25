@@ -10,9 +10,7 @@ def frame_csv(data_frame: DataFrame, file: str, **kwargs):
     store pandas.DataFrame to csv, with default options
     """
     ensure_dir_exist(file)
-    kwargs.setdefault('header', True)
-    kwargs.setdefault('index', False)
-    data_frame.to_csv(file, encoding='utf-8', **dict(header=True, index=False).update(kwargs))
+    data_frame.to_csv(file, encoding='utf-8', **{**dict(header=True, index=False), **kwargs})
 
 
 def save_list_csv(data: List[List], columns: List[str], file: str, **kwargs):
@@ -29,5 +27,5 @@ def read_list_csv(columns: List[str], file: str, **kwargs) -> List[List]:
 
     :return: DataFrame rows value
     """
-    frame = read_csv(file, names=columns, **dict(header=0, encoding='utf-8').update(kwargs))
+    frame = read_csv(file, names=columns, **{**dict(header=0, encoding='utf-8'), **kwargs})
     return frame.values
