@@ -1,5 +1,5 @@
-from collections import namedtuple
 import sys
+from collections import namedtuple
 
 try:
     import __builtin__ as builtins

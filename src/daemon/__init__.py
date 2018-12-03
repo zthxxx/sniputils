@@ -30,13 +30,13 @@ Usage:
     $ nohup python -m main > xxx.log 2> error.log &
 """
 
-from logging import FileHandler, Logger
 import os
 import signal
 import sys
+from logging import FileHandler, Logger
 
-from daemon import DaemonContext
 import lockfile
+from daemon import DaemonContext
 
 from ..snippets import ensure_dir_exist
 

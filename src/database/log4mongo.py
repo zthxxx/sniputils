@@ -16,8 +16,8 @@ if want to remove handler, use:
     remove_log4mongo()
 """
 
-from datetime import datetime
 import logging
+from datetime import datetime
 
 from mongoengine import DateTimeField, Document, IntField, MongoEngineConnectionError, StringField
 

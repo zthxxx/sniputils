@@ -1,7 +1,7 @@
 import json
 
-from bson import json_util
 import oss2
+from bson import json_util
 
 from ..snippets import classproperty
 

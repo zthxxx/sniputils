@@ -19,7 +19,7 @@ class ESSearch(object):
         start, end = arrow.get(start).naive, arrow.get(end).naive
         start.tzinfo = self.tzlocal
         end.tzinfo = self.tzlocal
-        return query.filter('range', **{"@timestamp": {'gte': start, 'lte': end}}).sort('-@timestamp')
+        return query.filter('range', **{'@timestamp': {'gte': start, 'lte': end}}).sort('-@timestamp')
 
     def query_string(self, query_str: str, range: Tuple[str, str] = None):
         query = self.searching.query('query_string', query=query_str)

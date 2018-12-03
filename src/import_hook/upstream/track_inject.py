@@ -1,5 +1,5 @@
-from sys import path
 from os.path import abspath, dirname, isfile, join
+from sys import path
 
 
 def path_inject(file):

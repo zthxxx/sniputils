@@ -7,7 +7,7 @@ from typing import Iterable, List
 import arrow
 
 
-class classproperty(property):
+class classproperty(property):  # noqa: N801
     def __get__(self, cls, owner):
         return self.fget.__get__(None, owner)()
 

@@ -1,7 +1,7 @@
 from typing import Iterable, Union
 
-from mongoengine.connection import connect, get_db
 from mongoengine.base import BaseDocument
+from mongoengine.connection import connect, get_db
 
 
 def mongo_connect(host: Union[str, list], database: str, user: str = None, passwd: str = None, **kwargs):
