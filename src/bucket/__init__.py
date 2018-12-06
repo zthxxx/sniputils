@@ -15,7 +15,7 @@ class Bucket(object):
     _bucket = None
     _oss_config = None
 
-    def __init__(self, oss_config):
+    def __init__(self, oss_config=None):
         """
         :param oss_config: dict
         {
@@ -23,6 +23,8 @@ class Bucket(object):
             'host': '', 'bucket': '',
         }
         """
+        if oss_config is None:
+            return
         if isinstance(oss_config, oss2.Bucket):
             self.overwrite_bucket(oss_config)
         self.set_oss_config(oss_config)

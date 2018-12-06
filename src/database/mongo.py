@@ -1,10 +1,11 @@
 from typing import Iterable, Union
 
 from mongoengine.base import BaseDocument
-from mongoengine.connection import connect, get_db
+from mongoengine.connection import DEFAULT_CONNECTION_NAME, connect, get_db
 
 
-def mongo_connect(host: Union[str, list], database: str, user: str = None, passwd: str = None, **kwargs):
+def mongo_connect(host: Union[str, list], database: str, user: str = None, passwd: str = None,
+                  auto_alias: Union[bool, str] = False, **kwargs):
     """
     mongoengine global connection
 
@@ -12,6 +13,7 @@ def mongo_connect(host: Union[str, list], database: str, user: str = None, passw
     :param database: database name
     :param user: user name
     :param passwd: password
+    :param auto_alias: bool | str, setting a alias connection name, or auto gen
     :param kwargs: some options in this:
 
     .. code:: python
@@ -23,9 +25,11 @@ def mongo_connect(host: Union[str, list], database: str, user: str = None, passw
 
     :return: connection
     """
+    alias = DEFAULT_CONNECTION_NAME
+    if auto_alias:
+        alias = f'{database}-{user}' if type(auto_alias) is bool else auto_alias
     if not isinstance(host, str) and isinstance(host, Iterable):
         host = f"mongodb://{','.join(host)}"
-    alias = f'{database}-{user}'
     connect(host=host, db=database, alias=alias, username=user, password=passwd, **kwargs)
     return get_db(alias)
 
