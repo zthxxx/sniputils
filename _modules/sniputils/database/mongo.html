@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>sniputils.database.mongo &mdash; sniputils 0.1.13 documentation</title>
+  <title>sniputils.database.mongo &mdash; sniputils 0.1.14 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                0.1.13
+                0.1.14
               </div>
             
           
@@ -155,11 +155,12 @@
   <h1>Source code for sniputils.database.mongo</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">mongoengine.connection</span> <span class="k">import</span> <span class="n">connect</span><span class="p">,</span> <span class="n">get_db</span>
 <span class="kn">from</span> <span class="nn">mongoengine.base</span> <span class="k">import</span> <span class="n">BaseDocument</span>
+<span class="kn">from</span> <span class="nn">mongoengine.connection</span> <span class="k">import</span> <span class="n">DEFAULT_CONNECTION_NAME</span><span class="p">,</span> <span class="n">connect</span><span class="p">,</span> <span class="n">get_db</span>
 
 
-<div class="viewcode-block" id="mongo_connect"><a class="viewcode-back" href="../../../api.html#sniputils.database.mongo_connect">[docs]</a><span class="k">def</span> <span class="nf">mongo_connect</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">passwd</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="mongo_connect"><a class="viewcode-back" href="../../../api.html#sniputils.database.mongo_connect">[docs]</a><span class="k">def</span> <span class="nf">mongo_connect</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span> <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">passwd</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">auto_alias</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    mongoengine global connection</span>
 
@@ -167,6 +168,7 @@
 <span class="sd">    :param database: database name</span>
 <span class="sd">    :param user: user name</span>
 <span class="sd">    :param passwd: password</span>
+<span class="sd">    :param auto_alias: bool | str, setting a alias connection name, or auto gen</span>
 <span class="sd">    :param kwargs: some options in this:</span>
 
 <span class="sd">    .. code:: python</span>
@@ -178,9 +180,11 @@
 
 <span class="sd">    :return: connection</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alias</span> <span class="o">=</span> <span class="n">DEFAULT_CONNECTION_NAME</span>
+    <span class="k">if</span> <span class="n">auto_alias</span><span class="p">:</span>
+        <span class="n">alias</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{database}</span><span class="s1">-</span><span class="si">{user}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">auto_alias</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">bool</span> <span class="k">else</span> <span class="n">auto_alias</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
         <span class="n">host</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;mongodb://{&#39;,&#39;.join(host)}&quot;</span>
-    <span class="n">alias</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{database}</span><span class="s1">-</span><span class="si">{user}</span><span class="s1">&#39;</span>
     <span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="n">database</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="n">alias</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">passwd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">get_db</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span></div>
 
