@@ -1,4 +1,6 @@
+import logging
 from collections import namedtuple
+from contextlib import contextmanager
 from datetime import timedelta
 from functools import reduce
 from os import makedirs, path
@@ -60,3 +62,36 @@ def period_split(start, end, delta: timedelta) -> List[namedtuple('period', ['st
         splits.append((start, next_step if next_step <= end else end))
         start = next_step
     return splits
+
+
+@contextmanager
+def except_all(item=None):
+    """
+    context to except all Exception
+
+    :param item: any thing as return
+
+    :return: item
+
+    .. code:: python
+
+        print('start')
+        with except_all():
+            print(1 / 0)
+            print('result')
+        print('end')
+
+    ..
+        output ->
+
+            start
+            ERROR:root:division by zero
+            end
+    """
+    try:
+        yield item
+    except Exception as e:
+        logging.error(e)
+        errors = globals().get('errors')
+        if errors is not None:
+            errors.append(e)
