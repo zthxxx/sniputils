@@ -17,8 +17,7 @@ class ESSearch(object):
 
     def time_range(self, query: Search, start, end):
         start, end = arrow.get(start).naive, arrow.get(end).naive
-        start.tzinfo = self.tzlocal
-        end.tzinfo = self.tzlocal
+        start, end = start.replace(tzinfo=self.tzlocal), end.replace(tzinfo=self.tzlocal)
         return query.filter('range', **{'@timestamp': {'gte': start, 'lte': end}}).sort('-@timestamp')
 
     def query_string(self, query_str: str, range: Tuple[str, str] = None):
