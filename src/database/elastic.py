@@ -12,7 +12,7 @@ class ESSearch(object):
         if hosts and not using:
             using = Elasticsearch(hosts=hosts, maxsize=25, timeout=300)
         using and config.update(using=using)
-        self.serching = Search(**config)
+        self.searching = Search(**config)
         self.tzlocal = tzlocal()
 
     def time_range(self, query: Search, start, end):
