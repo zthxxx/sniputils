@@ -36,9 +36,30 @@ def args2set(func):
     return args_set_func
 
 
-def reduce_set(items: List[list]) -> set:
+def reduce_set(items_list: List[list] = None) -> set:
+    """
+    flatten list of values list to set
+
+    Usage:
+
+    .. code:: python
+
+        reduce_set([[1, 2, 3], [2, 3, 4], [5]])
+        # {1, 2, 3, 4, 5}
+
+        reduce_set([])
+        # set()
+
+        reduce_set()
+        # set()
+
+    :param items_list: list of values list
+    :type items_list: list
+
+    :return: flatten set
+    """
     return set(
-        reduce(lambda a, b: set(a) | set(b), items)
+        reduce(lambda a, b: set(a) | set(b), items_list or [], set())
     )
 
 
