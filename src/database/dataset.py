@@ -11,7 +11,9 @@ def connection_url(config):
 
 def create_session(config):
     """
-    create dataset session to sql database
+    create dataset session to SQL database
+
+    https://dataset.readthedocs.io/en/latest/api.html#connecting
 
     :param config: connection config dict
     :type config: dict
@@ -29,7 +31,7 @@ def create_session(config):
             }
         }
 
-    :return: database session
+    :return: dataset session
     """
     session = dataset.connect(connection_url(config),
                               engine_kwargs={'pool_recycle': 7200})
