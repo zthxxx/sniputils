@@ -49,6 +49,7 @@ setup(
     python_requires='>=2.7',
     description='utils snippets for zthxxx',
     long_description=read('README.md'),
+    long_description_content_type='text/markdown',
     author='zthxxx',
     author_email='zthxxx.me@gmail.com',
     url='https://github.com/zthxxx/sniputils',

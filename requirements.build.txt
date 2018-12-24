@@ -9,4 +9,6 @@ sphinx
 sphinx_rtd_theme
 recommonmark
 
+twine
+
 -r requirements.txt
