@@ -3,6 +3,8 @@ from queue import Queue
 from threading import Barrier, Event, Thread
 from typing import Callable, Generator, Iterable
 
+from tqdm.auto import tqdm
+
 
 class ActorExitException(Exception):
     ...
@@ -193,9 +195,18 @@ class Parallel(object):
         # item 3
         # tasks end
 
+    .. code:: python
+
+        poi =  Parallel(func, preload=range(20), progress=True)
+        poi.run_as_async()
+
+        # output ->
+        # 100%|███████████████████████| 20/20 [00:01<00:00,  20it/s]
+
     """
 
-    def __init__(self, func: Callable[[any], any], preload: Iterable = None, keep=False, size=os.cpu_count() * 2 + 1):
+    def __init__(self, func: Callable[[any], any], preload: Iterable = None,
+                 keep=False, progress=False, size=os.cpu_count() * 2 + 1):
         """
         parallel run func with multi-threading
 
@@ -210,6 +221,8 @@ class Parallel(object):
         self.size = size
         self.queue = Queue()
         self.tasks = []
+        self.progress = progress
+        self.tqdm = None
 
         self._is_start = Event()
         self._is_stop = Event()
@@ -223,10 +236,19 @@ class Parallel(object):
         for item in preload or []:
             self.queue.put(item)
 
+        self.total = self.queue.qsize()
+        self.count = 0
+
     def put(self, item):
         if self.is_stop:
             raise ActorExitException('This actor is terminated')
         self.queue.put(item)
+
+        if item is not ActorExitException:
+            self.total += 1
+            if self.tqdm:
+                self.tqdm.total = self.total
+                self.tqdm.refresh()
 
     def puts(self, items):
         for item in items:
@@ -243,6 +265,8 @@ class Parallel(object):
             result = self.method(item)
             if result is not None:
                 self._results.put(result)
+            self.count += 1
+            self.tqdm and self.tqdm.update()
 
     def _bootstrap(self):
         try:
@@ -263,6 +287,7 @@ class Parallel(object):
 
     def _tasks_done_notify(self):
         self._results.put(ActorExitException)
+        self.tqdm and self.tqdm.close()
 
     def _get_result(self):
         while True:
@@ -292,6 +317,9 @@ class Parallel(object):
         if self.is_start:
             return self
         self._is_start.set()
+
+        self.tqdm = tqdm(total=self.total, leave=True, dynamic_ncols=True)
+
         for index in range(self.size):
             task = Thread(name='parallel', target=self._bootstrap)
             self.tasks.append(task)
