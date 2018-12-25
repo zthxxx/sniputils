@@ -50,4 +50,4 @@ python setup.py sdist upload
 
 **sniputils** © [zthxxx](https://github.com/zthxxx), Released under the **[MIT](./LICENSE)** License.
 
-> Blog [@zthxxx](https://blog.zthxxx.com) · GitHub [@zthxxx](https://github.com/zthxxx)
+> Blog [@zthxxx](https://blog.zthxxx.me) · GitHub [@zthxxx](https://github.com/zthxxx)

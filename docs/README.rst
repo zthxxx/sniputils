@@ -80,7 +80,7 @@ Author
 
 **sniputils** © `zthxxx <https://github.com/zthxxx>`_, Released under the `MIT <./LICENSE>`_ License.
 
-> Blog `@zthxxx <https://blog.zthxxx.com>`_ · GitHub `@zthxxx`_
+> Blog `@zthxxx <https://blog.zthxxx.me>`_ · GitHub `@zthxxx`_
 
 
 .. |Code Size| image:: https://img.shields.io/github/languages/code-size/zthxxx/sniputils.svg
