@@ -168,7 +168,9 @@
 
 <div class="viewcode-block" id="create_session"><a class="viewcode-back" href="../../../api.html#sniputils.database.create_session">[docs]</a><span class="k">def</span> <span class="nf">create_session</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    create dataset session to sql database</span>
+<span class="sd">    create dataset session to SQL database</span>
+
+<span class="sd">    https://dataset.readthedocs.io/en/latest/api.html#connecting</span>
 
 <span class="sd">    :param config: connection config dict</span>
 <span class="sd">    :type config: dict</span>
@@ -186,7 +188,7 @@
 <span class="sd">            }</span>
 <span class="sd">        }</span>
 
-<span class="sd">    :return: database session</span>
+<span class="sd">    :return: dataset session</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">session</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connection_url</span><span class="p">(</span><span class="n">config</span><span class="p">),</span>
                               <span class="n">engine_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pool_recycle&#39;</span><span class="p">:</span> <span class="mi">7200</span><span class="p">})</span>
