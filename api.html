@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API Reference &mdash; sniputils 0.1.18 documentation</title>
+  <title>API Reference &mdash; sniputils 0.1.20 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.1.18
+                0.1.20
               </div>
             
           
@@ -177,49 +177,40 @@
 <dt id="sniputils.conffor.load">
 <code class="descclassname">sniputils.conffor.</code><code class="descname">load</code><span class="sig-paren">(</span><em>file: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/conffor/conffor.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.conffor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>load json file with default options</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> – file path to load</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">json data as python object</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> – file path to load</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>json data as python object</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="sniputils.conffor.dump">
 <code class="descclassname">sniputils.conffor.</code><code class="descname">dump</code><span class="sig-paren">(</span><em>file: str</em>, <em>config: dict</em>, <em>indent=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/conffor/conffor.html#dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.conffor.dump" title="Permalink to this definition">¶</a></dt>
 <dd><p>export dict as json file, with default options</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>file</strong> – file path to export</li>
-<li><strong>config</strong> – dict data object</li>
-<li><strong>indent</strong> – json indent num</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – file path to export</p></li>
+<li><p><strong>config</strong> – dict data object</p></li>
+<li><p><strong>indent</strong> – json indent num</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="sniputils.conffor.read_list_csv">
 <code class="descclassname">sniputils.conffor.</code><code class="descname">read_list_csv</code><span class="sig-paren">(</span><em>columns: List[str], file: str, **kwargs</em><span class="sig-paren">)</span> &#x2192; List[List]<a class="reference internal" href="_modules/sniputils/conffor/csvtor.html#read_list_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.conffor.read_list_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>read csv with columns, return raw data list</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">DataFrame rows value</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DataFrame rows value</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -234,22 +225,18 @@
 <dl class="function">
 <dt id="sniputils.logsetting.reset_logbase">
 <code class="descclassname">sniputils.logsetting.</code><code class="descname">reset_logbase</code><span class="sig-paren">(</span><em>filename=None</em>, <em>stream=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='UTF-8'&gt;</em>, <em>filemode='a'</em>, <em>level=20</em>, <em>msg_format='%(asctime)s &lt;%(name)s: %(threadName)s&gt; %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'</em>, <em>date_format='%Y-%m-%d %H:%M:%S'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/logsetting.html#reset_logbase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.logsetting.reset_logbase" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> – which file will logging to</li>
-<li><strong>stream</strong> – stream type, default is <code class="docutils literal notranslate"><span class="pre">stdout</span></code></li>
-<li><strong>filemode</strong> – [w]overwrite or [a]append mode, default is append</li>
-<li><strong>level</strong> – logging level, default is <code class="docutils literal notranslate"><span class="pre">INFO</span></code></li>
-<li><strong>msg_format</strong> – message format pattern str, default is <code class="docutils literal notranslate"><span class="pre">logsetting.MSG_FORMAT</span></code></li>
-<li><strong>date_format</strong> – time format pattern str, default is <code class="docutils literal notranslate"><span class="pre">logsetting.TIME_FORMAT</span></code></li>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – which file will logging to</p></li>
+<li><p><strong>stream</strong> – stream type, default is <code class="docutils literal notranslate"><span class="pre">stdout</span></code></p></li>
+<li><p><strong>filemode</strong> – [w]overwrite or [a]append mode, default is append</p></li>
+<li><p><strong>level</strong> – logging level, default is <code class="docutils literal notranslate"><span class="pre">INFO</span></code></p></li>
+<li><p><strong>msg_format</strong> – message format pattern str, default is <code class="docutils literal notranslate"><span class="pre">logsetting.MSG_FORMAT</span></code></p></li>
+<li><p><strong>date_format</strong> – time format pattern str, default is <code class="docutils literal notranslate"><span class="pre">logsetting.TIME_FORMAT</span></code></p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -263,29 +250,29 @@
 <span id="cli"></span><h2>cli<a class="headerlink" href="#module-sniputils.cli.cli_gen" title="Permalink to this headline">¶</a></h2>
 <p>base on Click 6.x</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">notice that need <code class="docutils literal notranslate"><span class="pre">LC_ALL=en_US.UTF-8</span></code> in sys env</p>
+<p class="admonition-title">Warning</p>
+<p>notice that need <code class="docutils literal notranslate"><span class="pre">LC_ALL=en_US.UTF-8</span></code> in sys env</p>
 </div>
 <p>in this package, its set in <code class="docutils literal notranslate"><span class="pre">src.__init__</span></code> by locale.setlocale</p>
 <p>use <code class="docutils literal notranslate"><span class="pre">ops()</span></code> os <code class="docutils literal notranslate"><span class="pre">click.option()</span></code> to add options</p>
 <p>use <code class="docutils literal notranslate"><span class="pre">&#64;cli.resultcallback()</span></code> to add callback function while parse cli params</p>
 <p>Usage as typical example:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sniputils.cli</span> <span class="k">import</span> <span class="n">cli</span><span class="p">,</span> <span class="n">ops</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sniputils.cli</span> <span class="kn">import</span> <span class="n">cli</span><span class="p">,</span> <span class="n">ops</span>
 
 <span class="n">cli</span><span class="o">.</span><span class="n">help</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    this is the typical example of sniputils.cli</span>
 <span class="s1">&#39;&#39;&#39;</span>
 
-<span class="n">ops</span><span class="p">(</span><span class="s1">&#39;--test&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;use test model&#39;</span><span class="p">)</span>
+<span class="n">ops</span><span class="p">(</span><span class="s1">&#39;--test&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;use test model&#39;</span><span class="p">)</span>
 
-<span class="nd">@cli</span><span class="o">.</span><span class="n">resultcallback</span><span class="p">()</span>
+<span class="nd">@cli.resultcallback</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">callback_parse_config</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cli parse callback!&#39;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;cli parse callback!&#39;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
     <span class="n">parse_config</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>$ python cli.py --test
-# output -&gt; &#39;cli parse callback!&#39;, {&#39;test&#39;: True}
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python cli.py --test
+<span class="c1"># output -&gt; &#39;cli parse callback!&#39;, {&#39;test&#39;: True}</span>
 </pre></div>
 </div>
 <dl class="data">
@@ -354,15 +341,12 @@
 <code class="descclassname">sniputils.database.</code><code class="descname">create_session</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/dataset.html#create_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.create_session" title="Permalink to this definition">¶</a></dt>
 <dd><p>create dataset session to SQL database</p>
 <p><a class="reference external" href="https://dataset.readthedocs.io/en/latest/api.html#connecting">https://dataset.readthedocs.io/en/latest/api.html#connecting</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – connection config dict</td>
-</tr>
-</tbody>
-</table>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – connection config dict</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;drive&#39;</span><span class="p">:</span> <span class="s1">&#39;mysql+pymysql&#39;</span><span class="p">,</span>
     <span class="s1">&#39;connection&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s1">&#39;xxx&#39;</span><span class="p">,</span>
@@ -374,66 +358,54 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dataset session</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dataset session</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="sniputils.database.mongo_connect">
 <code class="descclassname">sniputils.database.</code><code class="descname">mongo_connect</code><span class="sig-paren">(</span><em>host: Union[str, list], database: str, user: str = None, passwd: str = None, auto_alias: Union[bool, str] = False, **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/mongo.html#mongo_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.mongo_connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>mongoengine global connection</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>host</strong> – <code class="docutils literal notranslate"><span class="pre">hostname:port</span></code> or <code class="docutils literal notranslate"><span class="pre">mongodb://host:port,host:port</span></code> or <code class="docutils literal notranslate"><span class="pre">[host,</span> <span class="pre">host]</span></code></li>
-<li><strong>database</strong> – database name</li>
-<li><strong>user</strong> – user name</li>
-<li><strong>passwd</strong> – password</li>
-<li><strong>auto_alias</strong> – bool | str, setting a alias connection name, or auto gen</li>
-<li><strong>kwargs</strong> – some options in this:</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – <code class="docutils literal notranslate"><span class="pre">hostname:port</span></code> or <code class="docutils literal notranslate"><span class="pre">mongodb://host:port,host:port</span></code> or <code class="docutils literal notranslate"><span class="pre">[host,</span> <span class="pre">host]</span></code></p></li>
+<li><p><strong>database</strong> – database name</p></li>
+<li><p><strong>user</strong> – user name</p></li>
+<li><p><strong>passwd</strong> – password</p></li>
+<li><p><strong>auto_alias</strong> – bool | str, setting a alias connection name, or auto gen</p></li>
+<li><p><strong>kwargs</strong> – some options in this:</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;replicaSet&#39;</span><span class="p">,</span> <span class="s1">&#39;read_preference&#39;</span><span class="p">,</span>
     <span class="s1">&#39;authentication_source&#39;</span><span class="p">,</span> <span class="s1">&#39;authentication_mechanism&#39;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">connection</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>connection</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="sniputils.database.doc2dict">
 <code class="descclassname">sniputils.database.</code><code class="descname">doc2dict</code><span class="sig-paren">(</span><em>doc: Union[list, mongoengine.base.document.BaseDocument]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/database/mongo.html#doc2dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.database.doc2dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>transform mongoengine Document to python native dict</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>doc</strong> – Document object</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dict for Document data</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>doc</strong> – Document object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict for Document data</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -454,21 +426,21 @@
 <h2>concurrent<a class="headerlink" href="#concurrent" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="sniputils.concurrent.Parallel">
-<em class="property">class </em><code class="descclassname">sniputils.concurrent.</code><code class="descname">Parallel</code><span class="sig-paren">(</span><em>func: Callable[any, any], preload: Iterable = None, keep=False, size=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/concurrent/parallel.html#Parallel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.concurrent.Parallel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">sniputils.concurrent.</code><code class="descname">Parallel</code><span class="sig-paren">(</span><em>func: Callable[any, any], preload: Iterable = None, keep=False, progress=False, size=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/concurrent/parallel.html#Parallel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.concurrent.Parallel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Actor model extension</p>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Actor_model">https://en.wikipedia.org/wiki/Actor_model</a></p>
 <p>Usage:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># global define in those case</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># global define in those case</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
 
 <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;param:&#39;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;param:&#39;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">param</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
@@ -480,23 +452,23 @@
 <span class="c1"># get param 7</span>
 
 <span class="c1"># if await with `keep` flag</span>
-<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># -&gt; will block because the `keep` flag set will block until self.stop()</span>
+<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># -&gt; will block because the `keep` flag set will block until self.stop()</span>
                      <span class="c1"># its exit with poi.stop() in another thread</span>
 <span class="c1"># else if only use await</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">()</span> <span class="c1"># -&gt; will block until tasks were consumed finish</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># if want to block put, set `queue.maxsize`</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># if want to block put, set `queue.maxsize`</span>
 
 <span class="n">poi</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">maxsize</span> <span class="o">=</span> <span class="n">poi</span><span class="o">.</span><span class="n">size</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">puts</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># start</span>
@@ -506,11 +478,11 @@
 <span class="c1"># end</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">puts</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_await</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
-<span class="n">poi</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<span class="n">poi</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># param: 2</span>
@@ -520,21 +492,21 @@
 <span class="c1"># raise ActorExitException: This actor is terminated</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">puts</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 
 <span class="c1"># output raise -&gt;</span>
 <span class="c1"># ActorExitException: This actor is terminated</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">puts</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># start</span>
@@ -543,14 +515,14 @@
 <span class="c1"># param: 3  &lt;- blocked in here until poi.stop()</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">puts</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;sleep timeout&#39;</span><span class="p">)</span>
-<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;sleep timeout&#39;</span><span class="p">)</span>
+<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># start</span>
@@ -561,13 +533,13 @@
 <span class="c1"># end</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;sleep timeout&#39;</span><span class="p">)</span>
-<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;sleep timeout&#39;</span><span class="p">)</span>
+<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># start</span>
@@ -578,11 +550,11 @@
 <span class="c1"># end</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
-<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+<span class="n">poi</span><span class="o">.</span><span class="n">await_at</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># start</span>
@@ -591,35 +563,42 @@
 <span class="c1"># param: 3 &lt;- blocked in here until poi.stop()</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="o">...</span>
 <span class="c1"># equal Parallel(func).puts([1, 2, 3])</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
 <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">poi</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">poi</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;tasks end&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;tasks end&#39;</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># results [2, 1, 3]</span>
 <span class="c1"># tasks end</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">poi</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;tasks end&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;tasks end&#39;</span><span class="p">)</span>
 
 <span class="c1"># output -&gt;</span>
 <span class="c1"># item 2</span>
 <span class="c1"># item 1</span>
 <span class="c1"># item 3</span>
 <span class="c1"># tasks end</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">poi</span> <span class="o">=</span>  <span class="n">Parallel</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">preload</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">progress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">poi</span><span class="o">.</span><span class="n">run_as_async</span><span class="p">()</span>
+
+<span class="c1"># output -&gt;</span>
+<span class="c1"># 100%|███████████████████████| 20/20 [00:01&lt;00:00,  20it/s]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -629,27 +608,27 @@
 <span id="daemon"></span><h2>daemon<a class="headerlink" href="#module-sniputils.daemon" title="Permalink to this headline">¶</a></h2>
 <p>make current process run as daemon</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">need install <code class="docutils literal notranslate"><span class="pre">python-daemon</span></code></p>
+<p class="admonition-title">Note</p>
+<p>need install <code class="docutils literal notranslate"><span class="pre">python-daemon</span></code></p>
 </div>
 <p><a class="reference external" href="https://www.python.org/dev/peps/pep-3143">https://www.python.org/dev/peps/pep-3143</a></p>
 <p><a class="reference external" href="https://pypi.org/project/python-daemon/">https://pypi.org/project/python-daemon/</a></p>
 <p>Usage:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># deamon.py</span>
-<span class="kn">from</span> <span class="nn">sniputils.logsetting</span> <span class="k">import</span> <span class="n">reset_logbase</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># deamon.py</span>
+<span class="kn">from</span> <span class="nn">sniputils.logsetting</span> <span class="kn">import</span> <span class="n">reset_logbase</span>
 <span class="n">reset_logbase</span><span class="p">(</span><span class="s1">&#39;xxx.log&#39;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">sniputils.deamon</span> <span class="k">import</span> <span class="n">daemon</span>
+<span class="kn">from</span> <span class="nn">sniputils.deamon</span> <span class="kn">import</span> <span class="n">daemon</span>
 <span class="k">with</span> <span class="n">daemon</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span># use reset_logbase to set logging file
-$ export DAEMON_ERR_LOG=&#39;error.log&#39;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># use reset_logbase to set logging file</span>
+$ <span class="nb">export</span> <span class="nv">DAEMON_ERR_LOG</span><span class="o">=</span><span class="s1">&#39;error.log&#39;</span>
 $ python deamon.py
 
-# its like the command via nohup
-$ nohup python -m main &gt; xxx.log 2&gt; error.log &amp;
+<span class="c1"># its like the command via nohup</span>
+$ nohup python -m main &gt; xxx.log <span class="m">2</span>&gt; error.log <span class="p">&amp;</span>
 </pre></div>
 </div>
 <dl class="data">
@@ -665,42 +644,36 @@ $ nohup python -m main &gt; xxx.log 2&gt; error.log &amp;
 <code class="descclassname">sniputils.import_hook.</code><code class="descname">which_import_me</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/import_hook/import_track.html#which_import_me"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.import_hook.which_import_me" title="Permalink to this definition">¶</a></dt>
 <dd><p>get which import the caller who used this track func</p>
 <p>Usage:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># foo.py</span>
-<span class="kn">from</span> <span class="nn">.bar</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># foo.py</span>
+<span class="kn">from</span> <span class="nn">.bar</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># bar.py</span>
-<span class="kn">from</span> <span class="nn">import_hook</span> <span class="k">import</span> <span class="n">which_import_me</span>
+<span class="kn">from</span> <span class="nn">import_hook</span> <span class="kn">import</span> <span class="n">which_import_me</span>
 <span class="n">back_imported</span> <span class="o">=</span> <span class="n">which_import_me</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">back_imported</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">back_imported</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>$ python bar  --&gt; output: &lt;module foo.py&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python bar  --&gt; output: &lt;module foo.py&gt;
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">module - which import the caller</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>module - which import the caller</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="sniputils.import_hook.set_reimport">
 <code class="descclassname">sniputils.import_hook.</code><code class="descname">set_reimport</code><span class="sig-paren">(</span><em>module</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/import_hook/reimportable/reable.html#set_reimport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.import_hook.set_reimport" title="Permalink to this definition">¶</a></dt>
 <dd><p>set a module to re-importable</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>module</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – module name which want to reimportable</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>module</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – module name which want to reimportable</p>
+</dd>
+</dl>
 <p>Usage:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sniputils.import_hook</span> <span class="k">import</span> <span class="n">set_reimport</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sniputils.import_hook</span> <span class="kn">import</span> <span class="n">set_reimport</span>
 <span class="n">set_reimport</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -711,14 +684,11 @@ $ nohup python -m main &gt; xxx.log 2&gt; error.log &amp;
 <code class="descclassname">sniputils.import_hook.</code><code class="descname">disreimport</code><span class="sig-paren">(</span><em>module</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/import_hook/reimportable/reable.html#disreimport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.import_hook.disreimport" title="Permalink to this definition">¶</a></dt>
 <dd><p>disable a re-importable module</p>
 <p>usage like set_reimport</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>module</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – module name which want to disable reimport</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>module</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – module name which want to disable reimport</p>
+</dd>
+</dl>
 </dd></dl>
 
 <div class="section" id="module-sniputils.import_hook.upstream">
@@ -726,9 +696,9 @@ $ nohup python -m main &gt; xxx.log 2&gt; error.log &amp;
 <p>append upstream folder path in env PATH while folder is module</p>
 <p>to resolve relative import as absolute grammar</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p><strong>inject monkey patch</strong></p>
-<p class="last">support multiple to exec patch more times</p>
+<p>support multiple to exec patch more times</p>
 </div>
 <p>Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># as files like this:</span>
@@ -742,20 +712,20 @@ $ nohup python -m main &gt; xxx.log 2&gt; error.log &amp;
         <span class="n">bar</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># bar.py</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># bar.py</span>
 <span class="kn">import</span> <span class="nn">sniputils.import_hook.upstream</span>
 <span class="kn">import</span> <span class="nn">foo.foo.xxx</span>      <span class="c1"># &lt;- this is relative import but use absolute grammar</span>
 </pre></div>
 </div>
-<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span>$ python bar
-# it will append [&#39;/top&#39;] to sys.path
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python bar
+<span class="c1"># it will append [&#39;/top&#39;] to sys.path</span>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p><strong>NOTE</strong>: re-import this module will <strong>also reload</strong> and append to sys.path,
 it’s means</p>
-<div class="code python last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># in /test/foo/foo.py</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># in /test/foo/foo.py</span>
 <span class="kn">import</span> <span class="nn">sniputils.import_hook.upstream</span>
 <span class="c1"># in /retest/bar/bar.py</span>
 <span class="kn">import</span> <span class="nn">sniputils.import_hook.upstream</span>
@@ -794,21 +764,19 @@ it’s means</p>
 <dt id="sniputils.snippets.except_all">
 <code class="descclassname">sniputils.snippets.</code><code class="descname">except_all</code><span class="sig-paren">(</span><em>item=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sniputils/snippets.html#except_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.snippets.except_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>context to except all Exception</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> – any thing as return</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">item</td>
-</tr>
-</tbody>
-</table>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item</strong> – any thing as return</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>item</p>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">except_all</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -816,22 +784,18 @@ it’s means</p>
 <dl class="function">
 <dt id="sniputils.snippets.period_split">
 <code class="descclassname">sniputils.snippets.</code><code class="descname">period_split</code><span class="sig-paren">(</span><em>start</em>, <em>end</em>, <em>delta: datetime.timedelta</em><span class="sig-paren">)</span> &#x2192; List[sniputils.snippets.period]<a class="reference internal" href="_modules/sniputils/snippets.html#period_split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.snippets.period_split" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>start</strong> – period start time, string or datetime type</li>
-<li><strong>end</strong> – period ending time, string or datetime type</li>
-<li><strong>delta</strong> – steping length, must be a timedelta</li>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> – period start time, string or datetime type</p></li>
+<li><p><strong>end</strong> – period ending time, string or datetime type</p></li>
+<li><p><strong>delta</strong> – steping length, must be a timedelta</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -839,7 +803,7 @@ it’s means</p>
 <code class="descclassname">sniputils.snippets.</code><code class="descname">reduce_set</code><span class="sig-paren">(</span><em>items_list: List[list] = None</em><span class="sig-paren">)</span> &#x2192; set<a class="reference internal" href="_modules/sniputils/snippets.html#reduce_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sniputils.snippets.reduce_set" title="Permalink to this definition">¶</a></dt>
 <dd><p>flatten list of values list to set</p>
 <p>Usage:</p>
-<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reduce_set</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">]])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reduce_set</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">]])</span>
 <span class="c1"># {1, 2, 3, 4, 5}</span>
 
 <span class="n">reduce_set</span><span class="p">([])</span>
@@ -849,16 +813,14 @@ it’s means</p>
 <span class="c1"># set()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>items_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – list of values list</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">flatten set</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>items_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – list of values list</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>flatten set</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
